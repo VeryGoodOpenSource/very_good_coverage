@@ -1,23 +1,12 @@
-const wait = require('./wait');
-const process = require('process');
-const cp = require('child_process');
-const path = require('path');
+const process = require("process");
+const cp = require("child_process");
+const path = require("path");
 
-test('throws invalid number', async () => {
-  await expect(wait('foo')).rejects.toThrow('milliseconds not a number');
+test("test runs", () => {
+  const lcovPath = "./lcov.info";
+  process.env["INPUT_PATH"] = lcovPath;
+  const ip = path.join(__dirname, "index.js");
+  const actual = cp.execSync(`node ${ip}`, { env: process.env }).toString();
+  const expected = "::debug::./lcov.info\n";
+  expect(actual).toEqual(expected);
 });
-
-test('wait 500 ms', async () => {
-  const start = new Date();
-  await wait(500);
-  const end = new Date();
-  var delta = Math.abs(end - start);
-  expect(delta).toBeGreaterThanOrEqual(500);
-});
-
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = 500;
-  const ip = path.join(__dirname, 'index.js');
-  console.log(cp.execSync(`node ${ip}`, {env: process.env}).toString());
-})
