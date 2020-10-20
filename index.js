@@ -1,12 +1,16 @@
 const core = require("@actions/core");
+const parse = require("lcov-parse");
 
-async function run() {
-  try {
-    const lcovPath = core.getInput("path");
-    core.debug(lcovPath);
-  } catch (error) {
-    core.setFailed(error.message);
-  }
+function run() {
+  const lcovPath = core.getInput("path");
+  core.debug(lcovPath);
+
+  parse(lcovPath, function (err, data) {
+    if (err) {
+      core.setFailed("parsing error!");
+    }
+    core.debug(JSON.stringify(data));
+  });
 }
 
 run();
