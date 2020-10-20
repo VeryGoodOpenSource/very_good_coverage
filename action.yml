@@ -1,13 +1,10 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: very-good-coverage
+description: 'Enforce LCOV Coverage Thresholds'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
-    required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+  path:
+    description: 'lcov path'
+    required: false
+    default: './coverage/lcov.info'
 runs:
   using: 'node12'
   main: 'dist/index.js'
