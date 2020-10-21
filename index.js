@@ -3,13 +3,18 @@ const parse = require("lcov-parse");
 
 function run() {
   const lcovPath = core.getInput("path");
-  core.debug(lcovPath);
 
   parse(lcovPath, function (err, data) {
     if (err) {
       core.setFailed("parsing error!");
     }
-    core.debug(JSON.stringify(data));
+    let totalFinds = 0;
+    let totalHits = 0;
+    data.forEach(element => {
+      totalHits += element['lines']['hit'];
+      totalFinds += element['lines']['found'];
+    });
+    core.debug((totalHits / totalFinds) * 100);
   });
 }
 
