@@ -10,10 +10,12 @@ const parse = __webpack_require__(454);
 
 function run() {
   const lcovPath = core.getInput("path");
+  const minCoverage = core.getInput("min_coverage");
 
-  parse(lcovPath, function (err, data) {
-    if (err) {
+  parse(lcovPath, function (_, data) {
+    if (typeof data === "undefined") {
       core.setFailed("parsing error!");
+      return;
     }
     let totalFinds = 0;
     let totalHits = 0;
@@ -21,7 +23,11 @@ function run() {
       totalHits += element['lines']['hit'];
       totalFinds += element['lines']['found'];
     });
-    core.debug((totalHits / totalFinds) * 100);
+    const coverage = (totalHits / totalFinds) * 100;
+    const isValidBuild = coverage >= minCoverage;
+    if (!isValidBuild) {
+      core.setFailed(`Coverage ${coverage} is below the minimum ${minCoverage} expected`);
+    }
   });
 }
 

@@ -5,6 +5,10 @@ inputs:
     description: 'lcov path'
     required: false
     default: './coverage/lcov.info'
+  min_coverage:
+    description: 'minimum coverage percentage allowed'
+    required: false
+    default: 100
 runs:
   using: 'node12'
   main: 'dist/index.js'
