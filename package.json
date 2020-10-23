@@ -1,7 +1,7 @@
 {
-  "name": "javascript-action",
+  "name": "very-good-coverage",
   "version": "1.0.0",
-  "description": "JavaScript Action Template",
+  "description": "A Github Action which helps enforce code coverage threshold using lcov",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -11,19 +11,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/VGVentures/very-good-coverage.git"
   },
   "keywords": [
     "GitHub",
     "Actions",
-    "JavaScript"
+    "Coverage",
+    "JavaScript",
+    "lcov",
+    "testing"
   ],
-  "author": "",
+  "author": "hi@verygood.ventures",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/VGVentures/very-good-coverage/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/VGVentures/very-good-coverage",
   "dependencies": {
     "@actions/core": "^1.2.5",
     "lcov-parse": "^1.0.0"
