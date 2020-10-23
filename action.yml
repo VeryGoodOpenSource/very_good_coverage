@@ -1,5 +1,8 @@
 name: very-good-coverage
 description: 'Enforce LCOV Coverage Thresholds'
+branding: 
+  icon: check-square
+  color: green
 inputs:
   path:
     description: 'lcov path'
