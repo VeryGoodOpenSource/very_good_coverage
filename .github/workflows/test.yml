@@ -1,4 +1,4 @@
-name: "units-test"
+name: "ci"
 on:
   pull_request:
   push:
@@ -7,16 +7,14 @@ on:
       - "releases/*"
 
 jobs:
-  # unit tests
-  units:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm test
 
-  # test action works running from the graph
-  test:
+  e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
