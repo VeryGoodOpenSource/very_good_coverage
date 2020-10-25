@@ -4,7 +4,7 @@
 
 Developed with 💙 by [Very Good Ventures](https://verygood.ventures) 🦄
 
-[![units-test](https://github.com/VGVentures/very-good-coverage/workflows/units-test/badge.svg)](https://github.com/VGVentures/very_good_analysis/actions)
+[![ci](https://github.com/VGVentures/very-good-coverage/workflows/ci/badge.svg)](https://github.com/VGVentures/very_good_analysis/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A Github Action which helps enforce a minimum code coverage threshold.
