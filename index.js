@@ -3,12 +3,9 @@ const minimatch = require("minimatch");
 const parse = require("lcov-parse");
 
 function run() {
-  // const lcovPath = core.getInput("path");
-  // const minCoverage = core.getInput("min_coverage");
-  // const excluded = core.getInput("exclude");
-  const lcovPath = "./fixtures/lcov.95.info";
-  const minCoverage = 100;
-  const excluded = "**/whatever.dart **/*_observer.dart **/does_not_matter.dart";
+  const lcovPath = core.getInput("path");
+  const minCoverage = core.getInput("min_coverage");
+  const excluded = core.getInput("exclude");
   const excludedFiles = excluded.split(" ");
 
   parse(lcovPath, function (_, data) {
