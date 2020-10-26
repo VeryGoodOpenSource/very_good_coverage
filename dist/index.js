@@ -23,13 +23,10 @@ function run() {
     let totalFinds = 0;
     let totalHits = 0;
     data.forEach(element => {
-      const fileName = element["file"];
-      if (excludedFiles.forEach(element => {
-        const isExcluded = minimatch(fileName, element);
-        if (isExcluded) return;
-      }));
-      totalHits += element['lines']['hit'];
-      totalFinds += element['lines']['found'];
+      if (shouldCalculateCoverageForFile(element["file"], excludedFiles)) {
+        totalHits += element['lines']['hit'];
+        totalFinds += element['lines']['found'];
+      }
     });
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
@@ -37,6 +34,18 @@ function run() {
       core.setFailed(`Coverage ${coverage} is below the minimum ${minCoverage} expected`);
     }
   });
+}
+
+function shouldCalculateCoverageForFile(fileName, excludedFiles) {
+  let isExcluded = false;
+  if (excludedFiles.forEach(element => {
+    isExcluded = minimatch(fileName, element);
+    return;
+  }));
+  if (isExcluded) {
+    core.debug(`Excluding ${fileName} from coverage`);
+  }
+  return !isExcluded;
 }
 
 run();
