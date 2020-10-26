@@ -33,7 +33,7 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
   let isExcluded = false;
   if (excludedFiles.forEach(element => {
     isExcluded = minimatch(fileName, element);
-    return;
+    break;
   }));
   if (isExcluded) {
     core.debug(`Excluding ${fileName} from coverage`);
