@@ -23,25 +23,16 @@ A Github Action which helps enforce a minimum code coverage threshold.
 
 **Default** 100
 
+### `exclude`
+
+**Optional** List of paths to exclude from the coverage report, separated by an empty space ` `. Supports `globs` to describe file patterns.
+
 ## Example usage
 
 ```yaml
-uses: VGVentures/very-good-coverage@v1.0.0
+uses: VGVentures/very-good-coverage@v1.1.0
 with:
   path: "./coverage/lcov.info"
   min_coverage: 95
-```
-
-### `exclude`
-
-**Optional** List of files that you want to exclude from the coverage report, and separated by an empty space ` `. You can also use `globs` to describe file patterns.
-
-## Example usage
-
-```yaml
-uses: VGVentures/very-good-coverage@v1.0.0
-with:
-  path: "./coverage/lcov.95.info"
-  min_coverage: 100
   exclude: "**/*_observer.dart **/change.dart"
 ```
