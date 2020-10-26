@@ -29,7 +29,8 @@
   "homepage": "https://github.com/VGVentures/very-good-coverage",
   "dependencies": {
     "@actions/core": "^1.2.5",
-    "lcov-parse": "^1.0.0"
+    "lcov-parse": "^1.0.0",
+    "minimatch": "^3.0.4"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.24.1",

@@ -21,3 +21,11 @@ jobs:
       - uses: ./
         with:
           path: "./fixtures/lcov.100.info"
+      - uses: ./
+        with:
+          path: "./fixtures/lcov.95.info"
+          min_coverage: 90
+      - uses: ./
+        with:
+          path: "./fixtures/lcov.95.info"
+          exclude: "**/*_observer.dart"

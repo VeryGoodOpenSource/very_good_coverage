@@ -22,9 +22,32 @@ test("completes when the coverage is 100 and min_coverage is not provided", () =
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
 });
 
+test("completes when the coverage is higher than the threshold after excluding files", () => {
+  const lcovPath = "./fixtures/lcov.100.info";
+  const exclude = "**/*_observer.dart"
+  process.env["INPUT_PATH"] = lcovPath;
+  process.env["INPUT_EXCLUDE"] = exclude;
+  const ip = path.join(__dirname, "index.js");
+  cp.execSync(`node ${ip}`, { env: process.env }).toString();
+});
+
 test("fails when the coverage is not 100 and min_coverage is not provided", () => {
   const lcovPath = "./fixtures/lcov.95.info";
   process.env["INPUT_PATH"] = lcovPath;
+  const ip = path.join(__dirname, "index.js");
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env }).toString();
+    fail('this code should fail');
+  } catch (err) {
+    expect(err).toBeDefined();
+  }
+});
+
+test("fails when the coverage is below the min_coverage, even if we exclude files", () => {
+  const lcovPath = "./fixtures/lcov.100.info";
+  const exclude = "**/does_not_exist.dart"
+  process.env["INPUT_PATH"] = lcovPath;
+  process.env["INPUT_EXCLUDE"] = exclude;
   const ip = path.join(__dirname, "index.js");
   try {
     cp.execSync(`node ${ip}`, { env: process.env }).toString();
