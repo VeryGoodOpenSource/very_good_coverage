@@ -3,9 +3,12 @@ const minimatch = require("minimatch");
 const parse = require("lcov-parse");
 
 function run() {
-  const lcovPath = core.getInput("path");
-  const minCoverage = core.getInput("min_coverage");
-  const excluded = core.getInput("exclude");
+  // const lcovPath = core.getInput("path");
+  // const minCoverage = core.getInput("min_coverage");
+  // const excluded = core.getInput("exclude");
+  const lcovPath = "./fixtures/lcov.95.info";
+  const minCoverage = 100;
+  const excluded = "**/whatever.dart **/*_observer.dart **/does_not_matter.dart";
   const excludedFiles = excluded.split(" ");
 
   parse(lcovPath, function (_, data) {
@@ -30,15 +33,14 @@ function run() {
 }
 
 function shouldCalculateCoverageForFile(fileName, excludedFiles) {
-  let isExcluded = false;
-  if (excludedFiles.forEach(element => {
-    isExcluded = minimatch(fileName, element);
-    break;
-  }));
-  if (isExcluded) {
-    core.debug(`Excluding ${fileName} from coverage`);
+  for (let i = 0; i < excludedFiles.length; i++) {
+    const isExcluded = minimatch(fileName, excludedFiles[i]);
+    if (isExcluded) {
+      console.debug(`Excluding ${fileName} from coverage`);
+      return false;
+    }
   }
-  return !isExcluded;
+  return true;
 }
 
 run();
