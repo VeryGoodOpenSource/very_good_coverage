@@ -1,13 +1,29 @@
-# Very Good Coverage
+<p align="center" style="font-size: 24px">Very Good Coverage</p>
 
-[![Very Good Ventures](https://raw.githubusercontent.com/VGVentures/very_good_analysis/main/assets/vgv_logo.png)](https://verygood.ventures)
+<p align="center">
+  <a alt="Very Good Ventures" href="https://verygood.ventures">
+    <img height=150 src="./assets/logo.png"/>
+  </a>
+</p>
 
-Developed with 💙 by [Very Good Ventures](https://verygood.ventures) 🦄
+<p align="center">
+  Developed with 💙 by 
+  <a alt="Very Good Ventures" href="https://verygood.ventures">
+    Very Good Ventures
+  </a>
+   🦄
+</p>
 
-[![ci](https://github.com/VGVentures/very-good-coverage/workflows/ci/badge.svg)](https://github.com/VGVentures/very_good_analysis/actions)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+<a href="https://github.com/VGVentures/very_good_analysis/actions"><img src="https://github.com/VGVentures/very-good-coverage/workflows/ci/badge.svg" alt="ci"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+</p>
 
-A Github Action which helps enforce a minimum code coverage threshold.
+---
+
+<p align="center" style="font-size: 18px">
+  <b>A Github Action which helps enforce a minimum code coverage threshold.</b>
+</p>
 
 ## Inputs
 
@@ -25,7 +41,7 @@ A Github Action which helps enforce a minimum code coverage threshold.
 
 ### `exclude`
 
-**Optional** List of paths to exclude from the coverage report, separated by an empty space ` `. Supports `globs` to describe file patterns.
+**Optional** List of paths to exclude from the coverage report, separated by an empty space. Supports `globs` to describe file patterns.
 
 ## Example usage
 
