@@ -1,8 +1,6 @@
-<p align="center" style="font-size: 24px">Very Good Coverage</p>
-
 <p align="center">
   <a alt="Very Good Ventures" href="https://verygood.ventures">
-    <img height=150 src="./assets/logo.png"/>
+    <img height=200 src="./assets/logo.png"/>
   </a>
 </p>
 
