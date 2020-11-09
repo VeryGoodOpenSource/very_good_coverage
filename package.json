@@ -33,7 +33,7 @@
     "minimatch": "^3.0.4"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.25.0",
+    "@vercel/ncc": "^0.25.1",
     "eslint": "^7.13.0",
     "jest": "^26.6.3"
   }
