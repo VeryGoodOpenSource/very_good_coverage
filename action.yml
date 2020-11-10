@@ -1,4 +1,4 @@
-name: very-good-coverage
+name: 'Very Good Coverage'
 description: 'Enforce LCOV Coverage Thresholds'
 branding: 
   icon: check-square
