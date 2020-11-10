@@ -1,9 +1,14 @@
+# 1.1.1
+
+- docs: README and metadata updates
+- feat: improve failure message
+
 # 1.1.0
 
 - feat: added support to exclude files
 
 ```yaml
-uses: VGVentures/very-good-coverage@v1.1.0
+uses: VeryGoodOpenSource/very_good_coverage@v1.1.0
 with:
   path: "./coverage/lcov.info"
   min_coverage: 95
