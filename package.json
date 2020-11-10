@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VGVentures/very-good-coverage.git"
+    "url": "git+https://github.com/VeryGoodOpenSource/very_good_coverage.git"
   },
   "keywords": [
     "GitHub",
@@ -24,9 +24,9 @@
   "author": "hi@verygood.ventures",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VGVentures/very-good-coverage/issues"
+    "url": "https://github.com/VeryGoodOpenSource/very_good_coverage/issues"
   },
-  "homepage": "https://github.com/VGVentures/very-good-coverage",
+  "homepage": "https://github.com/VeryGoodOpenSource/very_good_coverage",
   "dependencies": {
     "@actions/core": "^1.2.5",
     "lcov-parse": "^1.0.0",

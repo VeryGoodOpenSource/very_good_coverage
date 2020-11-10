@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/VGVentures/very_good_analysis/actions"><img src="https://github.com/VGVentures/very-good-coverage/workflows/ci/badge.svg" alt="ci"></a>
+<a href="https://github.com/VeryGoodOpenSource/very_good_coverage/actions"><img src="https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg" alt="ci"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
 </p>
 
@@ -44,7 +44,7 @@
 ## Example usage
 
 ```yaml
-uses: VGVentures/very-good-coverage@v1.1.0
+uses: VeryGoodOpenSource/very_good_coverage@v1.1.0
 with:
   path: "./coverage/lcov.info"
   min_coverage: 95
