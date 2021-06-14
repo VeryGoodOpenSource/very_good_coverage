@@ -15,8 +15,10 @@ jobs:
       - run: npm test
 
   e2e:
+    defaults:
+      run:
+        working-directory: ./fixtures
     runs-on: ubuntu-latest
-    working-directory: fixtures
     steps:
       - uses: actions/checkout@v2
       - uses: ./
