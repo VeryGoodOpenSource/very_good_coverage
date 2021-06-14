@@ -1,10 +1,10 @@
-name: "ci"
+name: ci
 on:
   pull_request:
   push:
     branches:
       - main
-      - "releases/*"
+      - releases/*
 
 jobs:
   unit-tests:
@@ -16,20 +16,22 @@ jobs:
 
   e2e:
     runs-on: ubuntu-latest
+    working-directory: fixtures
     steps:
       - uses: actions/checkout@v2
       - uses: ./
-        with:
-          path: "./fixtures/lcov.100.info"
       - uses: ./
         with:
-          path: "./fixtures/lcov.95.info"
+          path: lcov.100.info
+      - uses: ./
+        with:
+          path: lcov.95.info
           min_coverage: 90
       - uses: ./
         with:
-          path: "./fixtures/lcov.95.info"
-          exclude: "**/*_observer.dart"
+          path: lcov.95.info
+          exclude: '**/*_observer.dart'
       - uses: ./
         with:
-          path: "./fixtures/lcov.95.info"
-          exclude: "**/whatever.dart **/*_observer.dart **/does_not_matter.dart"
+          path: lcov.95.info
+          exclude: '**/whatever.dart **/*_observer.dart **/does_not_matter.dart'
