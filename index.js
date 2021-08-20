@@ -44,7 +44,6 @@ function run() {
       ).map(([file, lines]) => {
         return `${file}: ${lines.join(', ')}`;
       });
-      console.log(linesMissingCoverageByFile);
 
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
