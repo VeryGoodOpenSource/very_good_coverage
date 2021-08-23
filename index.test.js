@@ -1,12 +1,21 @@
-const process = require("process");
-const cp = require("child_process");
-const path = require("path");
-const { fail } = require("assert");
+const process = require('process');
+const cp = require('child_process');
+const path = require('path');
+const { fail } = require('assert');
 
-test("invalid LCOV format throws an error", () => {
-  const lcovPath = "./fixtures/lcov.error.info";
-  process.env["INPUT_PATH"] = lcovPath;
-  const ip = path.join(__dirname, "index.js");
+const getErrorOutput = (error) => {
+  const output = Array(error.output)
+    .filter((line) => !!line)
+    .map((line) => line.toString().replaceAll('%0A', '\n'))
+    .filter((line) => line.trim().length > 0)
+    .join('\n');
+  return output;
+};
+
+test('invalid LCOV format throws an error', () => {
+  const lcovPath = './fixtures/lcov.error.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
   try {
     cp.execSync(`node ${ip}`, { env: process.env }).toString();
     fail('this code should fail');
@@ -15,26 +24,26 @@ test("invalid LCOV format throws an error", () => {
   }
 });
 
-test("completes when the coverage is 100 and min_coverage is not provided", () => {
-  const lcovPath = "./fixtures/lcov.100.info";
-  process.env["INPUT_PATH"] = lcovPath;
-  const ip = path.join(__dirname, "index.js");
+test('completes when the coverage is 100 and min_coverage is not provided', () => {
+  const lcovPath = './fixtures/lcov.100.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
 });
 
-test("completes when the coverage is higher than the threshold after excluding files", () => {
-  const lcovPath = "./fixtures/lcov.100.info";
-  const exclude = "**/*_observer.dart"
-  process.env["INPUT_PATH"] = lcovPath;
-  process.env["INPUT_EXCLUDE"] = exclude;
-  const ip = path.join(__dirname, "index.js");
+test('completes when the coverage is higher than the threshold after excluding files', () => {
+  const lcovPath = './fixtures/lcov.100.info';
+  const exclude = '**/*_observer.dart';
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_EXCLUDE'] = exclude;
+  const ip = path.join(__dirname, 'index.js');
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
 });
 
-test("fails when the coverage is not 100 and min_coverage is not provided", () => {
-  const lcovPath = "./fixtures/lcov.95.info";
-  process.env["INPUT_PATH"] = lcovPath;
-  const ip = path.join(__dirname, "index.js");
+test('fails when the coverage is not 100 and min_coverage is not provided', () => {
+  const lcovPath = './fixtures/lcov.95.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
   try {
     cp.execSync(`node ${ip}`, { env: process.env }).toString();
     fail('this code should fail');
@@ -43,12 +52,12 @@ test("fails when the coverage is not 100 and min_coverage is not provided", () =
   }
 });
 
-test("fails when the coverage is below the min_coverage, even if we exclude files", () => {
-  const lcovPath = "./fixtures/lcov.100.info";
-  const exclude = "**/does_not_exist.dart"
-  process.env["INPUT_PATH"] = lcovPath;
-  process.env["INPUT_EXCLUDE"] = exclude;
-  const ip = path.join(__dirname, "index.js");
+test('fails when the coverage is below the min_coverage, even if we exclude files', () => {
+  const lcovPath = './fixtures/lcov.100.info';
+  const exclude = '**/does_not_exist.dart';
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_EXCLUDE'] = exclude;
+  const ip = path.join(__dirname, 'index.js');
   try {
     cp.execSync(`node ${ip}`, { env: process.env }).toString();
     fail('this code should fail');
@@ -57,25 +66,43 @@ test("fails when the coverage is below the min_coverage, even if we exclude file
   }
 });
 
-test("completes when the coverage is above the given min_threshold", () => {
-  const lcovPath = "./fixtures/lcov.95.info";
+test('completes when the coverage is above the given min_threshold', () => {
+  const lcovPath = './fixtures/lcov.95.info';
   const minCoverage = 80;
-  process.env["INPUT_PATH"] = lcovPath;
-  process.env["INPUT_MIN_COVERAGE"] = minCoverage;
-  const ip = path.join(__dirname, "index.js");
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  const ip = path.join(__dirname, 'index.js');
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
 });
 
-test("fails when the coverage is below the given min_threshold", () => {
-  const lcovPath = "./fixtures/lcov.95.info";
+test('fails when the coverage is below the given min_threshold', () => {
+  const lcovPath = './fixtures/lcov.95.info';
   const minCoverage = 98;
-  process.env["INPUT_PATH"] = lcovPath;
-  process.env["INPUT_MIN_COVERAGE"] = minCoverage;
-  const ip = path.join(__dirname, "index.js");
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  const ip = path.join(__dirname, 'index.js');
   try {
     cp.execSync(`node ${ip}`, { env: process.env }).toString();
     fail('this code should fail');
   } catch (err) {
     expect(err).toBeDefined();
+  }
+});
+
+test('shows lines that are missing coverage when failure occurs', () => {
+  const lcovPath = './fixtures/lcov.95.info';
+  const minCoverage = 100;
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env }).toString();
+    fail('this code should fail');
+  } catch (err) {
+    const output = getErrorOutput(err);
+    expect(output).toContain('Lines not covered');
+    expect(output).toContain(
+      '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
+    );
   }
 });
