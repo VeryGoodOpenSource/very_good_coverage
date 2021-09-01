@@ -46,7 +46,7 @@
 ```yaml
 uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
 with:
-  path: "./coverage/lcov.info"
+  path: './coverage/lcov.info'
   min_coverage: 95
-  exclude: "**/*_observer.dart **/change.dart"
+  exclude: '**/*_observer.dart **/change.dart'
 ```
