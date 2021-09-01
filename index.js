@@ -13,18 +13,43 @@ function run() {
       core.setFailed('parsing error!');
       return;
     }
+
+    const linesMissingCoverage = [];
+
     let totalFinds = 0;
     let totalHits = 0;
     data.forEach((element) => {
       if (shouldCalculateCoverageForFile(element['file'], excludedFiles)) {
-        totalHits += element['lines']['hit'];
         totalFinds += element['lines']['found'];
+        totalHits += element['lines']['hit'];
+
+        for (const lineDetails of element['lines']['details']) {
+          const hits = lineDetails['hit'];
+
+          if (hits === 0) {
+            const fileName = element['file'];
+            const lineNumber = lineDetails['line'];
+            linesMissingCoverage[fileName] =
+              linesMissingCoverage[fileName] || [];
+            linesMissingCoverage[fileName].push(lineNumber);
+          }
+        }
       }
     });
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
     if (!isValidBuild) {
-      core.setFailed(`${coverage} is less than min_coverage ${minCoverage}`);
+      const linesMissingCoverageByFile = Object.entries(
+        linesMissingCoverage
+      ).map(([file, lines]) => {
+        return `${file}: ${lines.join(', ')}`;
+      });
+
+      core.setFailed(
+        `${coverage} is less than min_coverage ${minCoverage}\n\n` +
+          'Lines not covered:\n' +
+          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+      );
     }
   });
 }
