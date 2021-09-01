@@ -1,6 +1,6 @@
 name: 'Very Good Coverage'
 description: 'Enforce LCOV Coverage Thresholds'
-branding: 
+branding:
   icon: check-square
   color: green
 inputs:
