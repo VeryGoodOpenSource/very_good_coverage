@@ -4,9 +4,9 @@ const path = require('path');
 const { fail } = require('assert');
 
 const getErrorOutput = (error) => {
-  const output = Array(error.output)
+  const output = Array(...error.output)
     .filter((line) => !!line)
-    .map((line) => line.toString().replaceAll('%0A', '\n'))
+    .map((line) => line.toString().replace(/%0A/g, '\n'))
     .filter((line) => line.trim().length > 0)
     .join('\n');
   return output;
