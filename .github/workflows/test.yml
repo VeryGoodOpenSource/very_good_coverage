@@ -15,6 +15,7 @@ jobs:
         uses: creyD/prettier_action@v3.3
         with:
           dry: true
+          file_pattern: "*.{js,ts,json,md}"
       - name: Install dependencies
         run: npm ci
       - name: Test
