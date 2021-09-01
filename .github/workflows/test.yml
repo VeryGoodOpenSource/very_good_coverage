@@ -16,9 +16,7 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Format
-        uses: creyD/prettier_action@v3.3
-        with:
-          prettier_options: "--config .prettierrc --ignore-path .prettierignore --check ."
+        run: npm run check_format
 
   unit-tests:
     runs-on: ubuntu-latest
