@@ -7,15 +7,23 @@ on:
       - "releases/*"
 
 jobs:
+  styling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Format
+        uses: creyD/prettier_action@v3.3
+        with:
+          prettier_options: "--config .prettierrc --ignore-path .prettierignore --check ."
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Format
-        uses: creyD/prettier_action@v3.3
-        with:
-          dry: true
-          prettier_options: "--config .prettierrc --ignore-path .prettierignore"
       - name: Install dependencies
         run: npm ci
       - name: Test
