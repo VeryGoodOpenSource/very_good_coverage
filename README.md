@@ -44,7 +44,7 @@
 ## Example usage
 
 ```yaml
-uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
 with:
   path: './coverage/lcov.info'
   min_coverage: 95

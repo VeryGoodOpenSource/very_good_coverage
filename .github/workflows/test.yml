@@ -1,10 +1,10 @@
-name: "ci"
+name: 'ci'
 on:
   pull_request:
   push:
     branches:
       - main
-      - "releases/*"
+      - 'releases/*'
 
 jobs:
   styling:
@@ -34,19 +34,19 @@ jobs:
       - name: Test (100% requirement on 100% file)
         uses: ./
         with:
-          path: "./fixtures/lcov.100.info"
+          path: './fixtures/lcov.100.info'
       - name: Test (90% requirement on 95% file)
         uses: ./
         with:
-          path: "./fixtures/lcov.95.info"
+          path: './fixtures/lcov.95.info'
           min_coverage: 90
       - name: Test (100% requirement on 95% file)
         uses: ./
         with:
-          path: "./fixtures/lcov.95.info"
-          exclude: "**/*_observer.dart"
+          path: './fixtures/lcov.95.info'
+          exclude: '**/*_observer.dart'
       - name: Test (100% requirement on 95% file with excludes)
         uses: ./
         with:
-          path: "./fixtures/lcov.95.info"
-          exclude: "**/whatever.dart **/*_observer.dart **/does_not_matter.dart"
+          path: './fixtures/lcov.95.info'
+          exclude: '**/whatever.dart **/*_observer.dart **/does_not_matter.dart'
