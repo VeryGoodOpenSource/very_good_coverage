@@ -1,3 +1,8 @@
+# 1.2.0
+
+- feat: show missing coverage lines
+- ci: add prettier linting/formatting step
+
 # 1.1.1
 
 - docs: README and metadata updates
