@@ -1,0 +1,9 @@
+.vscode/
+assets/
+dist/
+fixtures/
+node_modules/
+.gitignore
+.npmignore
+.travis.yml
+.eslintignore

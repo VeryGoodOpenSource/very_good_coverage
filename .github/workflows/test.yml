@@ -7,29 +7,46 @@ on:
       - "releases/*"
 
 jobs:
+  styling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Format
+        run: npm run check_format
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
-      - run: npm test
+      - name: Install dependencies
+        run: npm ci
+      - name: Test
+        run: npm test
 
   e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./
+      - name: Test (100% requirement on 100% file)
+        uses: ./
         with:
           path: "./fixtures/lcov.100.info"
-      - uses: ./
+      - name: Test (90% requirement on 95% file)
+        uses: ./
         with:
           path: "./fixtures/lcov.95.info"
           min_coverage: 90
-      - uses: ./
+      - name: Test (100% requirement on 95% file)
+        uses: ./
         with:
           path: "./fixtures/lcov.95.info"
           exclude: "**/*_observer.dart"
-      - uses: ./
+      - name: Test (100% requirement on 95% file with excludes)
+        uses: ./
         with:
           path: "./fixtures/lcov.95.info"
           exclude: "**/whatever.dart **/*_observer.dart **/does_not_matter.dart"
