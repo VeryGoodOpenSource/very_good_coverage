@@ -1,27 +1,16 @@
-<p align="center">
-  <a alt="Very Good Ventures" href="https://verygood.ventures">
-    <img height=200 src="./assets/logo.png"/>
-  </a>
-</p>
+# Very Good Coverage
 
-<p align="center">
-  Developed with 💙 by 
-  <a alt="Very Good Ventures" href="https://verygood.ventures">
-    Very Good Ventures
-  </a>
-   🦄
-</p>
+[![Very Good Ventures][logo_white]][very_good_ventures_link_dark]
+[![Very Good Ventures][logo_black]][very_good_ventures_link_light]
 
-<p align="center">
-<a href="https://github.com/VeryGoodOpenSource/very_good_coverage/actions"><img src="https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg" alt="ci"></a>
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-</p>
+Developed with 💙 by [Very Good Ventures][very_good_ventures_link] 🦄
+
+[![ci][ci_badge]][ci_badge_link]
+[![License: MIT][license_badge]][license_badge_link]
 
 ---
 
-<p align="center" style="font-size: 18px">
-  <b>A Github Action which helps enforce a minimum code coverage threshold.</b>
-</p>
+A Github Action which helps enforce a minimum code coverage threshold.
 
 ## Inputs
 
@@ -50,3 +39,13 @@ with:
   min_coverage: 95
   exclude: '**/*_observer.dart **/change.dart'
 ```
+
+[ci_badge]: https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg
+[ci_badge_link]: https://github.com/VeryGoodOpenSource/very_good_coverage/actions
+[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[license_badge_link]: https://opensource.org/licenses/MIT
+[logo_black]: https://raw.githubusercontent.com/VeryGoodOpenSource/very_good_coverage/main/assets/vgv_logo_black.png#gh-light-mode-only
+[logo_white]: https://raw.githubusercontent.com/VeryGoodOpenSource/very_good_coverage/main/assets/vgv_logo_white.png#gh-dark-mode-only
+[very_good_ventures_link]: https://verygood.ventures
+[very_good_ventures_link_dark]: https://verygood.ventures#gh-dark-mode-only
+[very_good_ventures_link_light]: https://verygood.ventures#gh-light-mode-only
