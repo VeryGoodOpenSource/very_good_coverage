@@ -44,8 +44,8 @@ with:
 [ci_badge_link]: https://github.com/VeryGoodOpenSource/very_good_coverage/actions
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_badge_link]: https://opensource.org/licenses/MIT
-[logo_black]: https://raw.githubusercontent.com/VeryGoodOpenSource/very_good_coverage/main/assets/vgv_logo_black.png#gh-light-mode-only
-[logo_white]: https://raw.githubusercontent.com/VeryGoodOpenSource/very_good_coverage/main/assets/vgv_logo_white.png#gh-dark-mode-only
+[logo_black]: https://raw.githubusercontent.com/VGVentures/very_good_brand/main/styles/README/vgv_logo_black.png#gh-light-mode-only
+[logo_white]: https://raw.githubusercontent.com/VGVentures/very_good_brand/main/styles/README/vgv_logo_white.png#gh-dark-mode-onlyimages/vgv_logo_white.png#gh-dark-mode-only
 [very_good_ventures_link]: https://verygood.ventures
 [very_good_ventures_link_dark]: https://verygood.ventures#gh-dark-mode-only
 [very_good_ventures_link_light]: https://verygood.ventures#gh-light-mode-only
