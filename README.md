@@ -1,7 +1,7 @@
 # Very Good Coverage
 
-[![Very Good Ventures][logo_white]][very_good_ventures_link_dark]
 [![Very Good Ventures][logo_black]][very_good_ventures_link_light]
+[![Very Good Ventures][logo_white]][very_good_ventures_link_dark]
 
 Developed with 💙 by [Very Good Ventures][very_good_ventures_link] 🦄
 
@@ -10,7 +10,7 @@ Developed with 💙 by [Very Good Ventures][very_good_ventures_link] 🦄
 
 ---
 
-A Github Action which helps enforce a minimum code coverage threshold.
+A GitHub Action which helps enforce a minimum code coverage threshold.
 
 ## Inputs
 
