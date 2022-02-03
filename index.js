@@ -16,7 +16,7 @@ function run() {
 
   parse(lcovPath, (err, data) => {
     if (typeof data === 'undefined') {
-      core.setFailed(`parsing error!`);
+      core.setFailed('parsing error!');
       return;
     }
 
