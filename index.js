@@ -9,8 +9,7 @@ function run() {
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
 
-  const errorCallback = (errorMessage) => core.setFailed(errorMessage);
-  if (!canParse(lcovPath, errorCallback)) {
+  if (!canParse(lcovPath)) {
     return;
   }
 
@@ -71,11 +70,11 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
   return true;
 }
 
-function canParse(path, errorCallback) {
+function canParse(path) {
   let result = true;
   
   if (fs.existsSync(path) && fs.readFileSync(path).length === 0) {
-    errorCallback('lcov is empty!');
+    core.setFailed('lcov is empty!');
     result = false;
   }
 
