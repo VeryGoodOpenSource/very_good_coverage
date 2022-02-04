@@ -71,14 +71,12 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
 }
 
 function canParse(path) {
-  let result = true;
-  
   if (fs.existsSync(path) && fs.readFileSync(path).length === 0) {
     core.setFailed('lcov is empty!');
-    result = false;
+    return false;
   }
 
-  return result;
+  return true;
 }
 
 run();
