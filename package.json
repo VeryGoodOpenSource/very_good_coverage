@@ -1,6 +1,6 @@
 {
   "name": "very-good-coverage",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Github Action which helps enforce code coverage threshold using lcov",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/VeryGoodOpenSource/very_good_coverage.git"
   },
   "engines": {
-    "node": ">=14.17.5 <15"
+    "node": ">=14.17.5 <17"
   },
   "keywords": [
     "GitHub",
