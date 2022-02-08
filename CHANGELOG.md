@@ -1,3 +1,7 @@
+# 1.2.1
+
+- fix: throw "lcov is empty" instead of "parsing error!"
+
 # 1.2.0
 
 - feat: show missing coverage lines
