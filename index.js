@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const minimatch = require('minimatch');
 const parse = require('lcov-parse');
+const fs = require('fs');
 
 function run() {
   const lcovPath = core.getInput('path');
@@ -8,7 +9,11 @@ function run() {
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
 
-  parse(lcovPath, (_, data) => {
+  if (!canParse(lcovPath)) {
+    return;
+  }
+
+  parse(lcovPath, (err, data) => {
     if (typeof data === 'undefined') {
       core.setFailed('parsing error!');
       return;
@@ -62,6 +67,15 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
       return false;
     }
   }
+  return true;
+}
+
+function canParse(path) {
+  if (fs.existsSync(path) && fs.readFileSync(path).length === 0) {
+    core.setFailed('lcov is empty!');
+    return false;
+  }
+
   return true;
 }
 

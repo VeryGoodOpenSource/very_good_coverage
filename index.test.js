@@ -12,6 +12,21 @@ const getErrorOutput = (error) => {
   return output;
 };
 
+test('empty LCOV throws an error', () => {
+  const lcovPath = './fixtures/lcov.empty.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env });
+    fail('this code should fail');
+  } catch (err) {
+    expect(err).toBeDefined();
+
+    const errorMessage = err.stdout.toString();
+    expect(errorMessage).toContain('lcov is empty!');
+  }
+});
+
 test('invalid LCOV format throws an error', () => {
   const lcovPath = './fixtures/lcov.error.info';
   process.env['INPUT_PATH'] = lcovPath;
@@ -21,6 +36,9 @@ test('invalid LCOV format throws an error', () => {
     fail('this code should fail');
   } catch (err) {
     expect(err).toBeDefined();
+
+    const errorMessage = err.stdout.toString();
+    expect(errorMessage).toContain('parsing error!');
   }
 });
 
