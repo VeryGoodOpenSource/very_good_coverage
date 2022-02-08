@@ -36,12 +36,12 @@
     "@actions/core": "^1.6.0",
     "@eslint/eslintrc": "^1.0.4",
     "lcov-parse": "^1.0.0",
-    "minimatch": "^3.0.4",
+    "minimatch": "^3.0.5",
     "prettier": "^2.5.1"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.33.1",
     "eslint": "^8.8.0",
-    "jest": "^27.4.7"
+    "jest": "^27.5.1"
   }
 }
