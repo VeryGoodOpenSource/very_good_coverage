@@ -15,6 +15,16 @@ inputs:
   exclude:
     description: 'list of files you would like to exclude from coverage'
     required: false
+  github-token:
+    description: 'GitHub token required for coverage details comment to be posted'
+    required: false
+  report_coverage_comment:
+    description: 'whether comment should be posted to the PR with test coverage details'
+    required: false
+    default: false
+  project_name:
+    description: 'a name to use inside coverage comment'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
