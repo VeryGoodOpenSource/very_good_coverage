@@ -30,6 +30,18 @@ A GitHub Action which helps enforce a minimum code coverage threshold.
 
 **Optional** List of paths to exclude from the coverage report, separated by an empty space. Supports `globs` to describe file patterns.
 
+### `report_coverage_comment`
+
+**Optional** Reports coverage information as a pull request comment.
+
+**Default** false
+
+**Note** You must specify a `github_token` to allow coverage comments.
+
+### `github_token`
+
+**Optional** Token required to comment on a pull request.
+
 ## Example usage
 
 ```yaml
@@ -38,6 +50,8 @@ with:
   path: './coverage/lcov.info'
   min_coverage: 95
   exclude: '**/*_observer.dart **/change.dart'
+  report_coverage_comment: true
+  github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 [ci_badge]: https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg
