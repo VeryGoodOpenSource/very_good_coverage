@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const github = require('@actions/github');
 const minimatch = require('minimatch');
 const parse = require('lcov-parse');
 const fs = require('fs');
@@ -8,6 +9,8 @@ function run() {
   const minCoverage = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
+
+  comment(`Checking coverage for ${lcovPath}`);
 
   if (!canParse(lcovPath)) {
     return;
@@ -41,6 +44,7 @@ function run() {
         }
       }
     });
+
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
     if (!isValidBuild) {
@@ -77,6 +81,18 @@ function canParse(path) {
   }
 
   return true;
+}
+
+function comment(message) {
+  const githubToken = core.getInput('github_token');
+  if (githubToken === null) return;
+  const octokit = github.getOctokit(githubToken);
+
+  await octokit.rest.issues.createComment({
+    ...context.repo,
+    issue_number: pull_request.number,
+    body: message,
+  });
 }
 
 run();

@@ -15,6 +15,9 @@ inputs:
   exclude:
     description: 'list of files you would like to exclude from coverage'
     required: false
+  github_token:
+    description: 'GitHub token'
+  # TODO(alestiago): Provide a better description
 runs:
   using: 'node12'
   main: 'dist/index.js'
