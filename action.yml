@@ -20,7 +20,7 @@ inputs:
     type: boolean
     required: false
   github_token:
-    description: 'Token required to comment on a pull request'
+    description: 'token required to comment on a pull request'
     type: string
     required: false
 runs:
