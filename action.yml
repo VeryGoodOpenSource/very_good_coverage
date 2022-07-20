@@ -15,6 +15,14 @@ inputs:
   exclude:
     description: 'list of files you would like to exclude from coverage'
     required: false
+  report_coverage_comment:
+    description: 'reports coverage information as a pull request comment'
+    type: boolean
+    required: false
+  github_token:
+    description: 'Token required to comment on a pull request'
+    type: string
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
