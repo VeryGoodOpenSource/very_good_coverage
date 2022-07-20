@@ -113,7 +113,7 @@ function canParse(path) {
 /**
  * Comments on the GitHub PR with the given message.
  *
- * If a comment already exists, it will be updated. In order to avoid
+ * If a comment already exists, it will be updated; in order to avoid
  * polluting the comment history.
  *
  * To be able to identify "our" comments, the message must
