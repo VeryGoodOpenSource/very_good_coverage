@@ -60,11 +60,6 @@ function run() {
     );
 
     if (!reachedCoverage) {
-      const linesMissingCoverageByFile = Object.entries(
-        linesMissingCoverage
-      ).map(([file, lines]) => {
-        return `${file}: ${lines.join(', ')}`;
-      });
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
           'Lines not covered:\n' +
