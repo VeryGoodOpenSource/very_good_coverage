@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/VeryGoodOpenSource/very_good_coverage",
   "dependencies": {
-    "@actions/core": "^1.9.1",
+    "@actions/core": "^1.10.0",
     "@eslint/eslintrc": "^1.3.2",
     "lcov-parse": "^1.0.0",
     "minimatch": "^5.1.0",
