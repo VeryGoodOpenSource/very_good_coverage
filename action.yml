@@ -16,5 +16,5 @@ inputs:
     description: 'list of files you would like to exclude from coverage'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
