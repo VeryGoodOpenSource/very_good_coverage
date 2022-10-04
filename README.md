@@ -33,7 +33,7 @@ A GitHub Action which helps enforce a minimum code coverage threshold.
 ## Example usage
 
 ```yaml
-uses: VeryGoodOpenSource/very_good_coverage@v1
+uses: VeryGoodOpenSource/very_good_coverage@v2
 with:
   path: './coverage/lcov.info'
   min_coverage: 95
