@@ -4196,15 +4196,21 @@ function run() {
     });
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
-    if (!isValidBuild) {
-      const linesMissingCoverageByFile = Object.entries(
-        linesMissingCoverage
-      ).map(([file, lines]) => {
-        return `${file}: ${lines.join(', ')}`;
-      });
 
+    const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
+      ([file, lines]) => {
+        return `- ${file}: ${lines.join(', ')}`;
+      }
+    );
+    if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
+          'Lines not covered:\n' +
+          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+      );
+    } else {
+      core.debug(
+        `Coverage: ${coverage}. It is more than min_coverage ${minCoverage}\n\n` +
           'Lines not covered:\n' +
           linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
       );
