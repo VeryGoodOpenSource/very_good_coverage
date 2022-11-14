@@ -48,19 +48,19 @@ function run() {
         return `- ${file}: ${lines.join(', ')}`;
       }
     );
-    let linesMissingCoverageMessage = `Lines not covered:\n` +
+    let linesMissingCoverageMessage =
+      `Lines not covered:\n` +
       linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n');
     if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-        linesMissingCoverageMessage
+          linesMissingCoverageMessage
       );
     } else {
       var resultMessage = `Coverage: ${coverage}%.\n`;
       if (coverage < 100) {
-        resultMessage += `Coverage is more than min_coverage ${minCoverage}.\n\n`
+        resultMessage += `Coverage is greater than min_coverage ${minCoverage}.\n\n`;
         resultMessage += linesMissingCoverageMessage;
-
       }
       core.info(resultMessage);
     }

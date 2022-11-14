@@ -4196,24 +4196,26 @@ function run() {
     });
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
-
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
       ([file, lines]) => {
         return `- ${file}: ${lines.join(', ')}`;
       }
     );
+    let linesMissingCoverageMessage =
+      `Lines not covered:\n` +
+      linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n');
     if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          'Lines not covered:\n' +
-          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+          linesMissingCoverageMessage
       );
     } else {
-      core.debug(
-        `Coverage: ${coverage}. It is more than min_coverage ${minCoverage}\n\n` +
-          'Lines not covered:\n' +
-          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
-      );
+      var resultMessage = `Coverage: ${coverage}%.\n`;
+      if (coverage < 100) {
+        resultMessage += `Coverage is greater than min_coverage ${minCoverage}.\n\n`;
+        resultMessage += linesMissingCoverageMessage;
+      }
+      core.info(resultMessage);
     }
   });
 }

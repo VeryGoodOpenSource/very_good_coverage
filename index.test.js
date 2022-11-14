@@ -54,7 +54,7 @@ test('logs message when the coverage is 100 and min_coverage is not provided', (
   process.env['INPUT_PATH'] = lcovPath;
   const ip = path.join(__dirname, 'index.js');
   let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
-  expect(result).toContain('Coverage: 100%.')
+  expect(result).toContain('Coverage: 100%.');
 });
 
 test('completes when the coverage is higher than the threshold after excluding files', () => {
@@ -109,7 +109,9 @@ test('show message when the coverage is above the given min_threshold', () => {
   const ip = path.join(__dirname, 'index.js');
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
   let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
-  expect(result).toContain('Coverage: 95%.\nCoverage is more than min_coverage 80.')
+  expect(result).toContain(
+    'Coverage: 95%.\nCoverage is greater than min_coverage 80.'
+  );
 });
 
 test('fails when the coverage is below the given min_threshold', () => {
