@@ -110,7 +110,7 @@ test('show message when the coverage is above the given min_threshold', () => {
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
   let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
   expect(result).toContain(
-    'Coverage: 95%.\nCoverage is greater than min_coverage 80.'
+    'Coverage: 95%.\n95 is greater than or equal to min_coverage 80.'
   );
 });
 

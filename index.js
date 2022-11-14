@@ -59,7 +59,7 @@ function run() {
     } else {
       var resultMessage = `Coverage: ${coverage}%.\n`;
       if (coverage < 100) {
-        resultMessage += `Coverage is greater than min_coverage ${minCoverage}.\n\n`;
+        resultMessage += `${coverage} is greater than or equal to min_coverage ${minCoverage}.\n\n`;
         resultMessage += linesMissingCoverageMessage;
       }
       core.info(resultMessage);
