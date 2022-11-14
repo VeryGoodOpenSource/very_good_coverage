@@ -43,18 +43,26 @@ function run() {
     });
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
+    const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
+      ([file, lines]) => {
+        return `- ${file}: ${lines.join(', ')}`;
+      }
+    );
+    let linesMissingCoverageMessage =
+      `Lines not covered:\n` +
+      linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n');
     if (!isValidBuild) {
-      const linesMissingCoverageByFile = Object.entries(
-        linesMissingCoverage
-      ).map(([file, lines]) => {
-        return `${file}: ${lines.join(', ')}`;
-      });
-
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          'Lines not covered:\n' +
-          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+          linesMissingCoverageMessage
       );
+    } else {
+      var resultMessage = `Coverage: ${coverage}%.\n`;
+      if (coverage < 100) {
+        resultMessage += `${coverage} is greater than or equal to min_coverage ${minCoverage}.\n\n`;
+        resultMessage += linesMissingCoverageMessage;
+      }
+      core.info(resultMessage);
     }
   });
 }

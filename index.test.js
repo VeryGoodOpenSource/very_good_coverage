@@ -49,6 +49,14 @@ test('completes when the coverage is 100 and min_coverage is not provided', () =
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
 });
 
+test('logs message when the coverage is 100 and min_coverage is not provided', () => {
+  const lcovPath = './fixtures/lcov.100.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
+  let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
+  expect(result).toContain('Coverage: 100%.');
+});
+
 test('completes when the coverage is higher than the threshold after excluding files', () => {
   const lcovPath = './fixtures/lcov.100.info';
   const exclude = '**/*_observer.dart';
@@ -84,13 +92,26 @@ test('fails when the coverage is below the min_coverage, even if we exclude file
   }
 });
 
-test('completes when the coverage is above the given min_threshold', () => {
+test('show message when the coverage is above the given min_threshold', () => {
   const lcovPath = './fixtures/lcov.95.info';
   const minCoverage = 80;
   process.env['INPUT_PATH'] = lcovPath;
   process.env['INPUT_MIN_COVERAGE'] = minCoverage;
   const ip = path.join(__dirname, 'index.js');
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
+});
+
+test('show message when the coverage is above the given min_threshold', () => {
+  const lcovPath = './fixtures/lcov.95.info';
+  const minCoverage = 80;
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  const ip = path.join(__dirname, 'index.js');
+  cp.execSync(`node ${ip}`, { env: process.env }).toString();
+  let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
+  expect(result).toContain(
+    'Coverage: 95%.\n95 is greater than or equal to min_coverage 80.'
+  );
 });
 
 test('fails when the coverage is below the given min_threshold', () => {
@@ -123,4 +144,17 @@ test('shows lines that are missing coverage when failure occurs', () => {
       '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
     );
   }
+});
+
+test('shows lines that are missing coverage when coverage is less than 100%', () => {
+  const lcovPath = './fixtures/lcov.95.info';
+  const minCoverage = 80;
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  const ip = path.join(__dirname, 'index.js');
+  let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
+  expect(result).toContain('Lines not covered');
+  expect(result).toContain(
+    '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
+  );
 });
