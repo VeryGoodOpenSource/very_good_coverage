@@ -190,7 +190,7 @@ async function getSignedBotCommentIdentifier(githubToken, signature) {
  * @param {string} message - The message to update.
  */
 async function updateGitHubComment(githubToken, commentId, message) {
-  if (!githubToken) return;
+  if (!githubToken || !commentId) return;
 
   const octokit = github.getOctokit(githubToken);
   const context = github.context;

@@ -3,7 +3,10 @@ const cp = require('child_process');
 const path = require('path');
 const { fail } = require('assert');
 const github = require('@actions/github');
-const { getSignedBotCommentIdentifier } = require('./index.js');
+const {
+  getSignedBotCommentIdentifier,
+  updateGitHubComment,
+} = require('./index.js');
 const { GitHub } = require('@actions/github/lib/utils');
 
 const getErrorOutput = (error) => {
@@ -152,7 +155,7 @@ test('getSignedBotCommentIdentifier returns undefined when no comment contains s
       },
     },
   };
-  github.getOctokit = jest.fn((_) => octokit);
+  github.getOctokit = (_) => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
@@ -183,7 +186,7 @@ test('getSignedBotCommentIdentifier returns identifier when comment contains sig
       },
     },
   };
-  github.getOctokit = jest.fn((_) => octokit);
+  github.getOctokit = (_) => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
@@ -192,4 +195,64 @@ test('getSignedBotCommentIdentifier returns identifier when comment contains sig
 
   const result = await getSignedBotCommentIdentifier('token', signature);
   expect(result).toBe(comment2.id);
+});
+
+test('updateGitHubComment does nothing when token is null', async () => {
+  const updateComment = jest.fn((_) => {});
+  const octokit = {
+    rest: {
+      issues: {
+        updateComment: updateComment,
+      },
+    },
+  };
+  github.getOctokit = (_) => octokit;
+
+  await updateGitHubComment(null, 1, 'comment');
+  expect(updateComment).not.toHaveBeenCalled();
+});
+
+test('updateGitHubComment does nothing when identifier is null', async () => {
+  const updateComment = jest.fn((_) => {});
+  const octokit = {
+    rest: {
+      issues: {
+        updateComment: updateComment,
+      },
+    },
+  };
+  github.getOctokit = (_) => octokit;
+
+  await updateGitHubComment('token', null, 'comment');
+  expect(updateComment).not.toHaveBeenCalled();
+});
+
+test('updateGitHubComment is called with context data', async () => {
+  const updateComment = jest.fn((_) => {});
+
+  const octokit = {
+    rest: {
+      issues: {
+        updateComment: updateComment,
+      },
+    },
+  };
+  github.getOctokit = (_) => octokit;
+  const context = {
+    repo: {},
+    issue: { number: 1 },
+  };
+  github.context = context;
+
+  const comment = {
+    id: 1,
+    body: 'some comment',
+  };
+  await updateGitHubComment('token', comment.id, comment.body);
+  expect(updateComment).toHaveBeenCalledWith({
+    ...context.repo,
+    issue_number: context.issue.number,
+    comment_id: comment.id,
+    body: comment.body,
+  });
 });
