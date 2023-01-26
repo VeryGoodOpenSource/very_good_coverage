@@ -1,3 +1,12 @@
+# 2.1.0
+
+- feat: always output coverage
+- build(deps): various dependency updates
+
+# 2.0.0
+
+- build(deps): upgrade to node16
+
 # 1.2.1
 
 - fix: throw "lcov is empty" instead of "parsing error!"

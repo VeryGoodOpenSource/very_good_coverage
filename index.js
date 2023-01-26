@@ -55,12 +55,21 @@ async function run() {
         return `- ${file}: ${lines.join(', ')}`;
       }
     );
+    const linesMissingCoverageMessage =
+      `Lines not covered:\n` +
+      linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n');
 
-    if (!reachedCoverage) {
+    if (reachedCoverage) {
+      var resultMessage = `Coverage: ${coverage}%.\n`;
+      if (coverage < 100) {
+        resultMessage += `${coverage} is greater than or equal to min_coverage ${minCoverage}.\n\n`;
+        resultMessage += linesMissingCoverageMessage;
+      }
+      core.info(resultMessage);
+    } else {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          'Lines not covered:\n' +
-          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+          linesMissingCoverageMessage
       );
     }
 
@@ -73,7 +82,6 @@ async function run() {
         totalFinds,
         linesMissingCoverageByFile
       );
-
       if (commentIdentifier) {
         try {
           await updateGitHubComment(githubToken, commentIdentifier, message);
