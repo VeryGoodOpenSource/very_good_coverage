@@ -2,6 +2,9 @@ const process = require('process');
 const cp = require('child_process');
 const path = require('path');
 const { fail } = require('assert');
+const github = require('@actions/github');
+const { getSignedBotCommentIdentifier } = require('./index.js');
+const { GitHub } = require('@actions/github/lib/utils');
 
 const getErrorOutput = (error) => {
   const output = Array(...error.output)
@@ -123,4 +126,70 @@ test('shows lines that are missing coverage when failure occurs', () => {
       '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
     );
   }
+});
+
+test('getSignedBotCommentIdentifier returns undefined when token is null', async () => {
+  const result = await getSignedBotCommentIdentifier(null, 'signature');
+  expect(result).toBe(undefined);
+});
+
+test('getSignedBotCommentIdentifier returns undefined when signature is null', async () => {
+  const result = await getSignedBotCommentIdentifier('token', null);
+  expect(result).toBe(undefined);
+});
+
+test('getSignedBotCommentIdentifier returns undefined when no comment contains signature', async () => {
+  const comment1 = {
+    id: 1,
+    user: { type: 'Bot' },
+    body: 'some comment',
+  };
+  const comments = { data: [comment1] };
+  const octokit = {
+    rest: {
+      issues: {
+        listComments: (_) => comments,
+      },
+    },
+  };
+  github.getOctokit = jest.fn((_) => octokit);
+  const context = {
+    repo: {},
+    issue: { number: 1 },
+  };
+  github.context = context;
+
+  const result = await getSignedBotCommentIdentifier('token', 'signature');
+  expect(result).toBe(undefined);
+});
+
+test('getSignedBotCommentIdentifier returns identifier when comment contains signature', async () => {
+  const signature = 'some signature';
+  const comment1 = {
+    id: 1,
+    user: { type: 'Bot' },
+    body: 'some comment',
+  };
+  const comment2 = {
+    id: 2,
+    user: { type: 'Bot' },
+    body: 'some comment ' + signature,
+  };
+  const comments = { data: [comment1, comment2] };
+  const octokit = {
+    rest: {
+      issues: {
+        listComments: (_) => comments,
+      },
+    },
+  };
+  github.getOctokit = jest.fn((_) => octokit);
+  const context = {
+    repo: {},
+    issue: { number: 1 },
+  };
+  github.context = context;
+
+  const result = await getSignedBotCommentIdentifier('token', signature);
+  expect(result).toBe(comment2.id);
 });

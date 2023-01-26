@@ -24,7 +24,7 @@ async function run() {
     if (typeof data === 'undefined') {
       core.setFailed('parsing error!');
       return;
-    } 
+    }
 
     const linesMissingCoverage = [];
     let totalFinds = 0;
@@ -33,10 +33,10 @@ async function run() {
       if (shouldCalculateCoverageForFile(element['file'], excludedFiles)) {
         totalFinds += element['lines']['found'];
         totalHits += element['lines']['hit'];
-  
+
         for (const lineDetails of element['lines']['details']) {
           const hits = lineDetails['hit'];
-  
+
           if (hits === 0) {
             const fileName = element['file'];
             const lineNumber = lineDetails['line'];
@@ -47,7 +47,7 @@ async function run() {
         }
       }
     });
-  
+
     const coverage = (totalHits / totalFinds) * 100;
     const reachedCoverage = coverage >= minCoverage;
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
@@ -55,7 +55,7 @@ async function run() {
         return `- ${file}: ${lines.join(', ')}`;
       }
     );
-  
+
     if (!reachedCoverage) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
@@ -63,7 +63,7 @@ async function run() {
           linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
       );
     }
-  
+
     if (reportCoverageComment && githubToken) {
       const commentIdentifier = await getSignedBotCommentIdentifier();
       const message = formatCoverageAsMessage({
@@ -71,21 +71,19 @@ async function run() {
         coverage,
         minCoverage,
       });
-  
+
       if (commentIdentifier) {
-         updateGitHubComment(githubToken, commentIdentifier, message);
+        updateGitHubComment(githubToken, commentIdentifier, message);
       } else {
         postGitHubComment(githubToken, message);
       }
     }
   });
-
-
 }
 
 /**
  * Whether the given file should be included in the coverage calculation.
- * 
+ *
  * @param {string} fileName - The name of the file.
  * @param {string[]} excludedFiles - The list of files to exclude.
  */
@@ -102,7 +100,7 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
 
 /**
  * Whether the lcov file can be parsed or not.
- * 
+ *
  * @param {string} path - The path to the lcov file.
  */
 function canParse(path) {
@@ -116,11 +114,11 @@ function canParse(path) {
 /**
  * Formats the coverage information as a human readable string to be used
  * as a comment on the GitHub PR.
- * 
+ *
  * @param {number} coverage
  * @param {number} minCoverage
- * 
- * @returns 
+ *
+ * @returns
  */
 function formatCoverageAsMessage({
   linesMissingCoverageByFile,
@@ -152,16 +150,16 @@ ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
 /**
  * Retrieves the comment identifier of the comment posted by the bot with the
  * given signature.
- * 
+ *
  * If no comment was found, `undefined` is returned. If more than one comment was
  * found, the first one is returned.
- * 
- * @param {string} githubToken 
+ *
+ * @param {string} githubToken
  * @param {string} signature
  * @returns {Promise<number?>} The comment identifier, or `undefined` if no comment was found.
  */
 async function getSignedBotCommentIdentifier(githubToken, signature) {
-  if (!githubToken) return;
+  if (!githubToken || !signature) return;
 
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
@@ -175,21 +173,18 @@ async function getSignedBotCommentIdentifier(githubToken, signature) {
   );
   for (let i = 0; i < previousComments.data.length; i++) {
     const comment = previousComments.data[i];
-    if (
-      comment.user.type === 'Bot' &&
-      comment.body.includes(signature)
-    ) {
+    if (comment.user.type === 'Bot' && comment.body.includes(signature)) {
       return comment.id;
     }
   }
 }
 
 /**
- * Updates an existing comment on the GitHub PR. 
- * 
+ * Updates an existing comment on the GitHub PR.
+ *
  * Updating a comment completely replaces the previous comment with the new
  * message.
- * 
+ *
  * @param {string} githubToken
  * @param {number} commentId - The identifier of the comment to update.
  * @param {string} message - The message to update.
@@ -210,7 +205,7 @@ async function updateGitHubComment(githubToken, commentId, message) {
 
 /**
  * Posts a new comment on the GitHub PR.
- * 
+ *
  * @param {string} githubToken
  * @param {string} message - The message to post.
  * @returns
@@ -227,5 +222,12 @@ async function postGitHubComment(githubToken, message) {
   };
   await octokit.rest.issues.createComment(comment);
 }
+
+module.exports = {
+  postGitHubComment,
+  updateGitHubComment,
+  getSignedBotCommentIdentifier,
+  formatCoverageAsMessage,
+};
 
 run();
