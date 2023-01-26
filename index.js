@@ -131,7 +131,7 @@ function canParse(path) {
 
 /**
  * Formats the coverage information as a human readable string to be used
- * as a comment on the GitHub PR.
+ * as a comment on the GitHub pull request.
  *
  * @param {number} coverage
  * @param {number} minCoverage
@@ -202,7 +202,7 @@ async function getSignedBotCommentIdentifier(githubToken, signature) {
 }
 
 /**
- * Updates an existing comment on the GitHub PR.
+ * Updates an existing comment on the GitHub pull request.
  *
  * Updating a comment completely replaces the previous comment with the new
  * message.
@@ -226,7 +226,7 @@ async function updateGitHubComment(githubToken, commentId, message) {
 }
 
 /**
- * Creates a new comment on the GitHub PR.
+ * Creates a new comment on the GitHub pull request.
  *
  * @param {string} githubToken
  * @param {string} message - The message to post.
