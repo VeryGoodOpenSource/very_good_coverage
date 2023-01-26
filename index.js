@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github'); /// https://octokit.github.io/
 const minimatch = require('minimatch');
-const parse = require('lcov-parse');
+const parse = require('lcov-parse'); /// https://www.npmjs.com/package/lcov-parse
 const fs = require('fs');
 
 /// The comment signature helps us identify a previous comment.
@@ -20,67 +20,67 @@ async function run() {
   const githubToken = core.getInput('github_token');
   const reportCoverageComment = core.getInput('report_coverage_comment');
 
-  let coverageData;
-  parse(lcovPath, (err, data) => {
+  parse(lcovPath, async (err, data) => {
     if (typeof data === 'undefined') {
       core.setFailed('parsing error!');
-    } else {
-      coverageData = data;
-    }
-  });
+      return;
+    } 
 
-  const linesMissingCoverage = [];
-  let totalFinds = 0;
-  let totalHits = 0;
-  coverageData.forEach((element) => {
-    if (shouldCalculateCoverageForFile(element['file'], excludedFiles)) {
-      totalFinds += element['lines']['found'];
-      totalHits += element['lines']['hit'];
-
-      for (const lineDetails of element['lines']['details']) {
-        const hits = lineDetails['hit'];
-
-        if (hits === 0) {
-          const fileName = element['file'];
-          const lineNumber = lineDetails['line'];
-          linesMissingCoverage[fileName] =
-            linesMissingCoverage[fileName] || [];
-          linesMissingCoverage[fileName].push(lineNumber);
+    const linesMissingCoverage = [];
+    let totalFinds = 0;
+    let totalHits = 0;
+    data.forEach((element) => {
+      if (shouldCalculateCoverageForFile(element['file'], excludedFiles)) {
+        totalFinds += element['lines']['found'];
+        totalHits += element['lines']['hit'];
+  
+        for (const lineDetails of element['lines']['details']) {
+          const hits = lineDetails['hit'];
+  
+          if (hits === 0) {
+            const fileName = element['file'];
+            const lineNumber = lineDetails['line'];
+            linesMissingCoverage[fileName] =
+              linesMissingCoverage[fileName] || [];
+            linesMissingCoverage[fileName].push(lineNumber);
+          }
         }
+      }
+    });
+  
+    const coverage = (totalHits / totalFinds) * 100;
+    const reachedCoverage = coverage >= minCoverage;
+    const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
+      ([file, lines]) => {
+        return `- ${file}: ${lines.join(', ')}`;
+      }
+    );
+  
+    if (!reachedCoverage) {
+      core.setFailed(
+        `${coverage} is less than min_coverage ${minCoverage}\n\n` +
+          'Lines not covered:\n' +
+          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+      );
+    }
+  
+    if (reportCoverageComment && githubToken) {
+      const commentIdentifier = await getSignedBotCommentIdentifier();
+      const message = formatCoverageAsMessage({
+        linesMissingCoverageByFile,
+        coverage,
+        minCoverage,
+      });
+  
+      if (commentIdentifier) {
+         updateGitHubComment(githubToken, commentIdentifier, message);
+      } else {
+        postGitHubComment(githubToken, message);
       }
     }
   });
 
-  const coverage = (totalHits / totalFinds) * 100;
-  const reachedCoverage = coverage >= minCoverage;
-  const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
-    ([file, lines]) => {
-      return `- ${file}: ${lines.join(', ')}`;
-    }
-  );
 
-  if (!reachedCoverage) {
-    core.setFailed(
-      `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-        'Lines not covered:\n' +
-        linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
-    );
-  }
-
-  if (reportCoverageComment && githubToken) {
-    const commentIdentifier = await getSignedBotCommentIdentifier();
-    const message = formatCoverageAsMessage({
-      linesMissingCoverageByFile,
-      coverage,
-      minCoverage,
-    });
-
-    if (commentIdentifier) {
-       updateGitHubComment(githubToken, commentIdentifier, message);
-    } else {
-      postGitHubComment(githubToken, message);
-    }
-  }
 }
 
 /**
