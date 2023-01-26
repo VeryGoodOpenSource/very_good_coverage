@@ -75,7 +75,7 @@ async function run() {
       if (commentIdentifier) {
         updateGitHubComment(githubToken, commentIdentifier, message);
       } else {
-        postGitHubComment(githubToken, message);
+        createGitHubComment(githubToken, message);
       }
     }
   });
@@ -210,7 +210,7 @@ async function updateGitHubComment(githubToken, commentId, message) {
  * @param {string} message - The message to post.
  * @returns
  **/
-async function postGitHubComment(githubToken, message) {
+async function createGitHubComment(githubToken, message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
@@ -224,7 +224,7 @@ async function postGitHubComment(githubToken, message) {
 }
 
 module.exports = {
-  postGitHubComment,
+  createGitHubComment,
   updateGitHubComment,
   getSignedBotCommentIdentifier,
   formatCoverageAsMessage,

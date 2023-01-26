@@ -6,8 +6,8 @@ const github = require('@actions/github');
 const {
   getSignedBotCommentIdentifier,
   updateGitHubComment,
+  createGitHubComment,
 } = require('./index.js');
-const { GitHub } = require('@actions/github/lib/utils');
 
 const getErrorOutput = (error) => {
   const output = Array(...error.output)
@@ -227,7 +227,7 @@ test('updateGitHubComment does nothing when identifier is null', async () => {
   expect(updateComment).not.toHaveBeenCalled();
 });
 
-test('updateGitHubComment is called with context data', async () => {
+test('updateGitHubComment is called with correct data', async () => {
   const updateComment = jest.fn((_) => {});
 
   const octokit = {
@@ -254,5 +254,45 @@ test('updateGitHubComment is called with context data', async () => {
     issue_number: context.issue.number,
     comment_id: comment.id,
     body: comment.body,
+  });
+});
+
+test('createGitHubComment does nothing when token is null', async () => {
+  const createComment = jest.fn((_) => {});
+  const octokit = {
+    rest: {
+      issues: {
+        createComment: createComment,
+      },
+    },
+  };
+  github.getOctokit = (_) => octokit;
+
+  await createGitHubComment(null, 1, 'comment');
+  expect(createComment).not.toHaveBeenCalled();
+});
+
+test('createGitHubComment is called with correct data', async () => {
+  const createComment = jest.fn((_) => {});
+  const octokit = {
+    rest: {
+      issues: {
+        createComment: createComment,
+      },
+    },
+  };
+  github.getOctokit = (_) => octokit;
+  const context = {
+    repo: {},
+    issue: { number: 1 },
+  };
+  github.context = context;
+
+  const comment = 'some comment';
+  await createGitHubComment('token', comment);
+  expect(createComment).toHaveBeenCalledWith({
+    ...context.repo,
+    issue_number: context.issue.number,
+    body: comment,
   });
 });
