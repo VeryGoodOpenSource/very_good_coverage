@@ -179,7 +179,7 @@ test('createsComment when reportCoverageComment and githubToken are provided and
   process.env['INPUT_GITHUB_TOKEN'] = githubToken;
   const ip = path.join(__dirname, 'index.js');
 
-  const createComment = jest.fn((_) => {});
+  const createComment = jest.fn(() => {});
   const octokit = {
     rest: {
       issues: {
@@ -187,7 +187,7 @@ test('createsComment when reportCoverageComment and githubToken are provided and
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
@@ -195,6 +195,7 @@ test('createsComment when reportCoverageComment and githubToken are provided and
   github.context = context;
 
   try {
+    cp.execSync(`node ${ip}`, { env: process.env }).toString();
   } catch (err) {
     expect(err).toBeDefined();
   }
@@ -225,11 +226,11 @@ test('getSignedBotCommentIdentifier returns undefined when no comment contains s
   const octokit = {
     rest: {
       issues: {
-        listComments: (_) => comments,
+        listComments: () => comments,
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
@@ -256,11 +257,11 @@ test('getSignedBotCommentIdentifier returns identifier when comment contains sig
   const octokit = {
     rest: {
       issues: {
-        listComments: (_) => comments,
+        listComments: () => comments,
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
@@ -272,7 +273,7 @@ test('getSignedBotCommentIdentifier returns identifier when comment contains sig
 });
 
 test('updateGitHubComment does nothing when token is null', async () => {
-  const updateComment = jest.fn((_) => {});
+  const updateComment = jest.fn(() => {});
   const octokit = {
     rest: {
       issues: {
@@ -280,14 +281,14 @@ test('updateGitHubComment does nothing when token is null', async () => {
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
 
   await updateGitHubComment(null, 1, 'comment');
   expect(updateComment).not.toHaveBeenCalled();
 });
 
 test('updateGitHubComment does nothing when identifier is null', async () => {
-  const updateComment = jest.fn((_) => {});
+  const updateComment = jest.fn(() => {});
   const octokit = {
     rest: {
       issues: {
@@ -295,14 +296,14 @@ test('updateGitHubComment does nothing when identifier is null', async () => {
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
 
   await updateGitHubComment('token', null, 'comment');
   expect(updateComment).not.toHaveBeenCalled();
 });
 
 test('updateGitHubComment is called with correct data', async () => {
-  const updateComment = jest.fn((_) => {});
+  const updateComment = jest.fn(() => {});
 
   const octokit = {
     rest: {
@@ -311,7 +312,7 @@ test('updateGitHubComment is called with correct data', async () => {
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
@@ -332,7 +333,7 @@ test('updateGitHubComment is called with correct data', async () => {
 });
 
 test('createGitHubComment does nothing when token is null', async () => {
-  const createComment = jest.fn((_) => {});
+  const createComment = jest.fn(() => {});
   const octokit = {
     rest: {
       issues: {
@@ -340,14 +341,14 @@ test('createGitHubComment does nothing when token is null', async () => {
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
 
   await createGitHubComment(null, 1, 'comment');
   expect(createComment).not.toHaveBeenCalled();
 });
 
 test('createGitHubComment is called with correct data', async () => {
-  const createComment = jest.fn((_) => {});
+  const createComment = jest.fn(() => {});
   const octokit = {
     rest: {
       issues: {
@@ -355,7 +356,7 @@ test('createGitHubComment is called with correct data', async () => {
       },
     },
   };
-  github.getOctokit = (_) => octokit;
+  github.getOctokit = () => octokit;
   const context = {
     repo: {},
     issue: { number: 1 },
