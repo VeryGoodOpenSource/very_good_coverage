@@ -13,7 +13,7 @@ const commentSignature = `<!-- VeryGoodCoverage Bot Message -->`;
 async function run() {
   const lcovPath = core.getInput('path');
   const canParseLcov =
-    fs.existsSync(path) && fs.readFileSync(path).length === 0;
+    fs.existsSync(lcovPath) && fs.readFileSync(lcovPath).length === 0;
   if (!canParseLcov) {
     core.setFailed('lcov is empty!');
     return;
