@@ -1,5 +1,5 @@
 const process = require('process');
-const cp = require('child_process');
+const cp = require('child_process'); /// https://nodejs.org/api/child_process.html
 const path = require('path');
 const { fail } = require('assert');
 const github = require('@actions/github');
@@ -7,6 +7,7 @@ const {
   getSignedBotCommentIdentifier,
   updateGitHubComment,
   createGitHubComment,
+  formatCoverageAsMessage,
 } = require('./index.js');
 
 const getErrorOutput = (error) => {
@@ -129,6 +130,45 @@ test('shows lines that are missing coverage when failure occurs', () => {
       '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
     );
   }
+});
+
+test('createsComment when reportCoverageComment and githubToken are provided and no previous comment', async () => {
+  const lcovPath = './fixtures/lcov.95.info';
+  const minCoverage = 98;
+  const reportCoverageComment = true;
+  const githubToken = 'token';
+
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  process.env['GITHUB_REPOSITORY'] = 'VeryGoodOpenSource/very_good_coverage';
+  process.env['INPUT_REPORT_COVERAGE_COMMENT'] = reportCoverageComment;
+  process.env['INPUT_GITHUB_TOKEN'] = githubToken;
+  const ip = path.join(__dirname, 'index.js');
+
+  const createComment = jest.fn((_) => {});
+  const octokit = {
+    rest: {
+      issues: {
+        createComment: createComment,
+      },
+    },
+  };
+  github.getOctokit = (_) => octokit;
+  const context = {
+    repo: {},
+    issue: { number: 1 },
+  };
+  github.context = context;
+
+  try {
+  } catch (err) {
+    expect(err).toBeDefined();
+  }
+
+  // TODO(alestiago): Figure out how we want to test this, since
+  // we are mocking the github context and octokit but we seem to
+  // be unable to do so within the cp.execSync call.
+  // expect(createComment).toHaveBeenCalled();
 });
 
 test('getSignedBotCommentIdentifier returns undefined when token is null', async () => {
@@ -295,4 +335,21 @@ test('createGitHubComment is called with correct data', async () => {
     issue_number: context.issue.number,
     body: comment,
   });
+});
+
+test('formatCoverageAsMessage returns normally', () => {
+  const coverage = 0.5;
+  const totalHits = 5;
+  const totalFinds = 10;
+  const minCoverage = 0.6;
+  const linesMissingCoverageByFile = ['line1: 1, 2, 3', 'line2: 1, 2, 3'];
+
+  const result = formatCoverageAsMessage({
+    coverage,
+    minCoverage,
+    totalHits,
+    totalFinds,
+    linesMissingCoverageByFile,
+  });
+  expect(result).toBeDefined();
 });

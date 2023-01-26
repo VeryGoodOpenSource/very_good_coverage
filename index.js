@@ -66,16 +66,26 @@ async function run() {
 
     if (reportCoverageComment && githubToken) {
       const commentIdentifier = await getSignedBotCommentIdentifier();
-      const message = formatCoverageAsMessage({
-        linesMissingCoverageByFile,
+      const message = formatCoverageAsMessage(
         coverage,
         minCoverage,
-      });
+        totalHits,
+        totalFinds,
+        linesMissingCoverageByFile
+      );
 
       if (commentIdentifier) {
-        updateGitHubComment(githubToken, commentIdentifier, message);
+        try {
+          await updateGitHubComment(githubToken, commentIdentifier, message);
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        createGitHubComment(githubToken, message);
+        try {
+          await createGitHubComment(githubToken, message);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   });
@@ -117,17 +127,21 @@ function canParse(path) {
  *
  * @param {number} coverage
  * @param {number} minCoverage
+ * @param {number} totalHits
+ * @param {number} totalFinds
+ * @param {string[]} linesMissingCoverageByFile
  *
  * @returns
  */
-function formatCoverageAsMessage({
-  linesMissingCoverageByFile,
+function formatCoverageAsMessage(
   coverage,
+  minCoverage,
   totalHits,
   totalFinds,
-  minCoverage,
-}) {
+  linesMissingCoverageByFile
+) {
   const coverageDifference = coverage - minCoverage;
+  const reachedCoverage = coverageDifference >= 0;
   let message = `\
 ## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
 
@@ -135,7 +149,7 @@ Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
 Min coverage difference: ${coverageDifference}% (${coverage}% / ${minCoverage}%)
 `;
 
-  if (linesMissingCoverageByFile.length > 0) {
+  if (linesMissingCoverageByFile) {
     message += `\
 <details>
 <summary>Lines not covered</summary>
@@ -204,7 +218,7 @@ async function updateGitHubComment(githubToken, commentId, message) {
 }
 
 /**
- * Posts a new comment on the GitHub PR.
+ * Creates a new comment on the GitHub PR.
  *
  * @param {string} githubToken
  * @param {string} message - The message to post.
