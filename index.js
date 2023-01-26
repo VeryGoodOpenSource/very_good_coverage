@@ -12,12 +12,7 @@ const commentSignature = `<!-- VeryGoodCoverage Bot Message -->`;
 
 async function run() {
   const lcovPath = core.getInput('path');
-  const canParseLcov =
-    fs.existsSync(lcovPath) && fs.readFileSync(lcovPath).length === 0;
-  if (!canParseLcov) {
-    core.setFailed('lcov is empty!');
-    return;
-  }
+  if (!canParse(lcovPath)) return;
 
   const minCoverage = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
@@ -117,6 +112,19 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
       core.debug(`Excluding ${fileName} from coverage`);
       return false;
     }
+  }
+  return true;
+}
+
+/**
+ * Whether the lcov file can be parsed or not.
+ *
+ * @param {string} path - The path to the lcov file.
+ */
+function canParse(path) {
+  if (fs.existsSync(path) && fs.readFileSync(path).length === 0) {
+    core.setFailed('lcov is empty!');
+    return false;
   }
   return true;
 }
