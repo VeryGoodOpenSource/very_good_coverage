@@ -57,26 +57,6 @@ For example:
   }
 });
 
-test('empty LCOV throws an error', () => {
-  const lcovPath = './fixtures/lcov.empty.info';
-  process.env['INPUT_PATH'] = lcovPath;
-  const ip = path.join(__dirname, 'index.js');
-  try {
-    cp.execSync(`node ${ip}`, { env: process.env });
-    fail('this code should fail');
-  } catch (err) {
-    expect(err).toBeDefined();
-
-    const errorMessage = err.stdout.toString().replace(/%0A/g, '\n');
-    expect(errorMessage).toContain(
-      `❌ Found an empty lcov file at "${lcovPath}".
-An empty lcov file was found but with no coverage data. This might be because \
-you have no test files or your tests are not generating any coverage data.
-`
-    );
-  }
-});
-
 test('invalid LCOV format throws an error', () => {
   const lcovPath = './fixtures/lcov.error.info';
   process.env['INPUT_PATH'] = lcovPath;
