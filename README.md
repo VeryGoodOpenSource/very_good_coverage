@@ -14,7 +14,7 @@ A GitHub Action which helps enforce a minimum code coverage threshold.
 
 ## Inputs
 
-VeryGoodWorkflow accepts the following configuration inputs:
+VeryGoodCoverage accepts the following configuration inputs:
 
 | Input name   | Description                                                                                                                                                                     | Default                | Example value                         | Optional |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- | -------- |
@@ -48,7 +48,7 @@ with:
 
 If your generated lcov file is empty this might be because you have no test files or your tests are not generating any coverage data.
 
-If you wish to always bypass these warnings we recommend using a conditional statement in your workflow to avoid running the VeryGoodCoverage workflow when the lcov file is empty or non-existent.
+If you wish to always bypass these warnings we recommend using a conditional statement in your workflow to avoid running the VeryGoodCoverage action when the lcov file is empty or non-existent.
 
 For example, if your non-existent or empty coverage file is meant to be located at `./coverage/lcov.info`:
 
