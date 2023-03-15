@@ -50,7 +50,7 @@ If your generated lcov file is empty this might be because you have no test file
 
 If you wish to always bypass these warnings we recommend using a conditional statement in your workflow to avoid running the VeryGoodCoverage action when the lcov file is empty or non-existent.
 
-For example, if your non-existent or empty coverage file is meant to be located at `./coverage/lcov.info`:
+For example, if your non-existent or empty coverage file is meant to be located at `./coverage/lcov.info` you may do:
 
 ```yaml
 - name: Check for existing and non-empty coverage file
