@@ -34,7 +34,7 @@ with:
 
 ## FAQs
 
-#### How can I avoid VeryGoodCoverage reporting an empty or non-existent coverage file?
+#### How can I avoid Very Good Coverage reporting an empty or non-existent coverage file?
 
 [Relevant issue](https://github.com/VeryGoodOpenSource/very_good_coverage/issues/167)
 
