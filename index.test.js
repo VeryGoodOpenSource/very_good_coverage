@@ -22,8 +22,58 @@ test('empty LCOV throws an error', () => {
   } catch (err) {
     expect(err).toBeDefined();
 
-    const errorMessage = err.stdout.toString();
-    expect(errorMessage).toContain('lcov is empty!');
+    const errorMessage = err.stdout.toString().replace(/%0A/g, '\n');
+    expect(errorMessage).toContain(
+      `❌ Found an empty lcov file at "${lcovPath}".
+An empty lcov file was found but with no coverage data. This might be because \
+you have no test files or your tests are not generating any coverage data.
+`
+    );
+  }
+});
+
+test('non-existent LCOV throws an error', () => {
+  const lcovPath = './fixtures/not-found.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env });
+    fail('this code should fail');
+  } catch (err) {
+    expect(err).toBeDefined();
+
+    const errorMessage = err.stdout.toString().replace(/%0A/g, '\n');
+    expect(errorMessage).toContain(
+      `❌ Failed to find an lcov file at ${lcovPath}. 
+Make sure to generate an lcov file before running VeryGoodCoverage and set the \
+path input to the correct location.
+
+For example:
+  uses: VeryGoodOpenSource/very_good_coverage@v2
+  with:
+    path: 'my_project/coverage/lcov.info'      
+`
+    );
+  }
+});
+
+test('empty LCOV throws an error', () => {
+  const lcovPath = './fixtures/lcov.empty.info';
+  process.env['INPUT_PATH'] = lcovPath;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env });
+    fail('this code should fail');
+  } catch (err) {
+    expect(err).toBeDefined();
+
+    const errorMessage = err.stdout.toString().replace(/%0A/g, '\n');
+    expect(errorMessage).toContain(
+      `❌ Found an empty lcov file at "${lcovPath}".
+An empty lcov file was found but with no coverage data. This might be because \
+you have no test files or your tests are not generating any coverage data.
+`
+    );
   }
 });
 

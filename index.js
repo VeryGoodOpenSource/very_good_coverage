@@ -79,8 +79,28 @@ function shouldCalculateCoverageForFile(fileName, excludedFiles) {
 }
 
 function canParse(path) {
-  if (fs.existsSync(path) && fs.readFileSync(path).length === 0) {
-    core.setFailed('lcov is empty!');
+  if (!fs.existsSync(path)) {
+    core.setFailed(
+      `❌ Failed to find an lcov file at ${path}. 
+Make sure to generate an lcov file before running VeryGoodCoverage and set the \
+path input to the correct location.
+
+For example:
+  uses: VeryGoodOpenSource/very_good_coverage@v2
+  with:
+    path: 'my_project/coverage/lcov.info'      
+`
+    );
+    return false;
+  }
+
+  if (fs.readFileSync(path).length === 0) {
+    core.setFailed(
+      `❌ Found an empty lcov file at "${path}".
+An empty lcov file was found but with no coverage data. This might be because \
+you have no test files or your tests are not generating any coverage data.
+`
+    );
     return false;
   }
 
