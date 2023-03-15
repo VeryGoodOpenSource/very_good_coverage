@@ -20,7 +20,7 @@ VeryGoodCoverage accepts the following configuration inputs:
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- | -------- |
 | path         | The path to the lcov.info file.                                                                                                                                                 | './coverage/lcov.info' | 'packages/my_app/coverage/lcov.info'  | ✅       |
 | min_coverage | The minimum coverage percentage allowed.                                                                                                                                        | 100                    | 95                                    | ✅       |
-| exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs](<https://en.wikipedia.org/wiki/Glob_(programming)>) to describe file patterns. | ""                     | '**/\*\_observer.dart **/change.dart' | ✅       |
+| exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs](<https://en.wikipedia.org/wiki/Glob_(programming)>) to describe file patterns. | ''                     | '**/\*\_observer.dart **/change.dart' | ✅       |
 
 ## Example usage
 
