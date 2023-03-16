@@ -41,7 +41,7 @@ function run() {
         }
       }
     });
-    const coverage = (totalHits / totalFinds) * 100;
+    const coverage = totalFinds === 0 ? 0 : (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
       ([file, lines]) => {
