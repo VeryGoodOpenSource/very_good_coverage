@@ -16,7 +16,7 @@ A GitHub Action which helps enforce a minimum code coverage threshold.
 
 Very Good Coverage accepts the following configuration inputs:
 
-| Input name   | Description                                                                                                                                                                     | Default                | Example value                         | Optional |
+| Input name   | Description                                                                                                                                                                     | Default value          | Example value                         | Optional |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- | -------- |
 | path         | The path to the lcov.info file.                                                                                                                                                 | './coverage/lcov.info' | 'packages/my_app/coverage/lcov.info'  | ✅       |
 | min_coverage | The minimum coverage percentage allowed.                                                                                                                                        | 100                    | 95                                    | ✅       |
