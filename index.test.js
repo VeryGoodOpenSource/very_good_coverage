@@ -189,9 +189,8 @@ test('shows lines that are missing coverage when coverage is less than 100%', ()
   );
 });
 
-test('issue 146', () => {
-  // Issue: https://github.com/VeryGoodOpenSource/very_good_coverage/issues/146
-  const lcovPath = './fixtures/lcov.issue146.info';
+test('reports 0 coverage when no lines are found ', () => {
+  const lcovPath = './fixtures/lcov.0.info';
   const minCoverage = 100;
   process.env['INPUT_PATH'] = lcovPath;
   process.env['INPUT_MIN_COVERAGE'] = minCoverage;
