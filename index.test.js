@@ -188,3 +188,20 @@ test('shows lines that are missing coverage when coverage is less than 100%', ()
     '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
   );
 });
+
+test('issue 146', () => {
+  // Issue: https://github.com/VeryGoodOpenSource/very_good_coverage/issues/146
+  const lcovPath = './fixtures/lcov.issue146.info';
+  const minCoverage = 100;
+  process.env['INPUT_PATH'] = lcovPath;
+  process.env['INPUT_MIN_COVERAGE'] = minCoverage;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env }).toString();
+    fail('this code should fail');
+  } catch (err) {
+    expect(err).toBeDefined();
+    const errorMessage = err.stdout.toString();
+    expect(errorMessage).toContain('0 is less than min_coverage 100');
+  }
+});
