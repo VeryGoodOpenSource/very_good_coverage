@@ -69,7 +69,7 @@ For example, if your non-existent or empty coverage file is meant to be located 
 
 The input path must be absolute. The specified working directory is ignored by the input path. This is because it is [not possible](https://github.com/actions/runner/issues/467) to access the working directory from an action.
 
-For example, if your working directory is `my_project` and your file is at `my_project/coverage/lcov.info` you must do:
+For example, if your working directory is `my_project` and your file is at `/my_project/coverage/lcov.info` you must do:
 
 ```yaml
 jobs:
@@ -83,7 +83,7 @@ jobs:
       - name: Very Good Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: my_project/coverage/lcov.info
+          path: /my_project/coverage/lcov.info
 ```
 
 [ci_badge]: https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg
