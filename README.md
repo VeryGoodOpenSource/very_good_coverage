@@ -16,11 +16,11 @@ A GitHub Action which helps enforce a minimum code coverage threshold.
 
 Very Good Coverage accepts the following configuration inputs:
 
-| Input name   | Description                                                                                                                                                                     | Default value          | Example value                         | Optional |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- | -------- |
-| path         | The path to the lcov.info file.                                                                                                                                                 | './coverage/lcov.info' | 'packages/my_app/coverage/lcov.info'  | ✅       |
-| min_coverage | The minimum coverage percentage allowed.                                                                                                                                        | 100                    | 95                                    | ✅       |
-| exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs](<https://en.wikipedia.org/wiki/Glob_(programming)>) to describe file patterns. | ''                     | '**/\*\_observer.dart **/change.dart' | ✅       |
+| Input name   | Description                                                                                                                   | Default value            | Optional |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------ | -------- |
+| path         | The path to the lcov.info file.                                                                                               | `"./coverage/lcov.info"` | ✅       |
+| min_coverage | The minimum coverage percentage allowed.                                                                                      | `100`                    | ✅       |
+| exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs]() to describe file patterns. | `""`                     | ✅       |
 
 ## Example usage
 
