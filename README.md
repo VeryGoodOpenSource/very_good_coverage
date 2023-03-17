@@ -16,18 +16,18 @@ A GitHub Action which helps enforce a minimum code coverage threshold.
 
 Very Good Coverage accepts the following configuration inputs:
 
-| Input name   | Description                                                                                                                   | Default value            | Optional |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------ | -------- |
-| path         | The path to the lcov.info file.                                                                                               | `"./coverage/lcov.info"` | ✅       |
-| min_coverage | The minimum coverage percentage allowed.                                                                                      | `100`                    | ✅       |
-| exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs]() to describe file patterns. | `""`                     | ✅       |
+| Input name   | Description                                                                                                                                                                     | Default value           | Optional |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | -------- |
+| path         | The absolute path to the lcov.info file.                                                                                                                                        | `"/coverage/lcov.info"` | ✅       |
+| min_coverage | The minimum coverage percentage allowed.                                                                                                                                        | `100`                   | ✅       |
+| exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs](<https://en.wikipedia.org/wiki/Glob_(programming)>) to describe file patterns. | `""`                    | ✅       |
 
 ## Example usage
 
 ```yaml
 uses: VeryGoodOpenSource/very_good_coverage@v2
 with:
-  path: './coverage/lcov.info'
+  path: '/coverage/lcov.info'
   min_coverage: 95
   exclude: '**/*_observer.dart **/change.dart'
 ```
@@ -50,17 +50,40 @@ If your generated lcov file is empty this might be because you have no test file
 
 If you wish to always bypass these warnings, we recommend using a conditional statement in your workflow to avoid running the Very Good Coverage action when the lcov file is empty or non-existent.
 
-For example, if your non-existent or empty coverage file is meant to be located at `./coverage/lcov.info` you may do:
+For example, if your non-existent or empty coverage file is meant to be located at `/coverage/lcov.info` you may do:
 
 ```yaml
 - name: Check for existing and non-empty coverage file
   id: test_coverage_file
-  run: if [ -s "./coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
+  run: if [ -s "/coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_OUTPUT ; else echo "result=false" >> $GITHUB_OUTPUT; fi
 - name: Very Good Coverage
   if: steps.test_coverage_file.outputs.result == 'true'
   uses: VeryGoodOpenSource/very_good_coverage@v2
   with:
-    path: './coverage/lcov.info'
+    path: '/coverage/lcov.info'
+```
+
+#### Why is my input path not relative to the specified `working-directory`?
+
+[Relevant issue](https://github.com/VeryGoodOpenSource/very_good_coverage/issues/35)
+
+The input path must be absolute. The specified working directory is ignored by the input path. This is because it is [not possible](https://github.com/actions/runner/issues/467) to access the working directory from an action. In other words, Very Good Coverage always runs from the root of your repository.
+
+For example, if your working directory is `my_project` and your file is at `/my_project/coverage/lcov.info` you must do:
+
+```yaml
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: my_project/
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Very Good Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: /my_project/coverage/lcov.info
 ```
 
 [ci_badge]: https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg
