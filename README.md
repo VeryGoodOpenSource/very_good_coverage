@@ -67,7 +67,7 @@ For example, if your non-existent or empty coverage file is meant to be located 
 
 [Relevant issue](https://github.com/VeryGoodOpenSource/very_good_coverage/issues/35)
 
-The input path must be absolute. The specified working directory is ignored by the input path. This is because it is [not possible](https://github.com/actions/runner/issues/467) to access the working directory from an action.
+The input path must be absolute. The specified working directory is ignored by the input path. This is because it is [not possible](https://github.com/actions/runner/issues/467) to access the working directory from an action. In other words, Very Good Coverage always runs from the root of your repository.
 
 For example, if your working directory is `my_project` and your file is at `/my_project/coverage/lcov.info` you must do:
 
