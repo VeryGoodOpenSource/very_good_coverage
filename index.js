@@ -9,7 +9,7 @@ function run() {
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
 
-  if (!canParse(lcovPath)) {
+  if (!canParse(lcovPath) || !canUseMinCoverage(minCoverage)) {
     return;
   }
 
@@ -54,7 +54,7 @@ function run() {
     if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          linesMissingCoverageMessage
+        linesMissingCoverageMessage
       );
     } else {
       var resultMessage = `Coverage: ${coverage}%.\n`;
@@ -105,6 +105,17 @@ you have no test files or your tests are not generating any coverage data.
   }
 
   return true;
+}
+
+function canUseMinCoverage(minCoverage) {
+  if (typeof minCoverage == 'number') return true;
+
+  if (minCoverage.toString().includes('%')) {
+    core.setFailed('❌ Failed to use min_coverage remove the `%` symbol');
+    return false;
+  }
+  core.setFailed('❌ Failed to use min_coverage value make sure you added a number');
+  return false;
 }
 
 run();
