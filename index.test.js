@@ -27,7 +27,7 @@ test('empty LCOV throws an error', () => {
       `❌ Found an empty lcov file at "${lcovPath}".
 An empty lcov file was found but with no coverage data. This might be because \
 you have no test files or your tests are not generating any coverage data.
-`
+`,
     );
   }
 });
@@ -52,7 +52,7 @@ For example:
   uses: VeryGoodOpenSource/very_good_coverage@v2
   with:
     path: 'my_project/coverage/lcov.info'      
-`
+`,
     );
   }
 });
@@ -140,7 +140,7 @@ test('show message when the coverage is above the given min_threshold', () => {
   cp.execSync(`node ${ip}`, { env: process.env }).toString();
   let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
   expect(result).toContain(
-    'Coverage: 95%.\n95 is greater than or equal to min_coverage 80.'
+    'Coverage: 95%.\n95 is greater than or equal to min_coverage 80.',
   );
 });
 
@@ -171,7 +171,7 @@ test('shows lines that are missing coverage when failure occurs', () => {
     const output = getErrorOutput(err);
     expect(output).toContain('Lines not covered');
     expect(output).toContain(
-      '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
+      '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51',
     );
   }
 });
@@ -185,7 +185,7 @@ test('shows lines that are missing coverage when coverage is less than 100%', ()
   let result = cp.execSync(`node ${ip}`, { env: process.env }).toString();
   expect(result).toContain('Lines not covered');
   expect(result).toContain(
-    '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51'
+    '/Users/felix/Development/github.com/felangel/bloc/packages/bloc/lib/src/bloc_observer.dart: 20, 27, 36, 43, 51',
   );
 });
 
