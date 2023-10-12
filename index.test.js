@@ -12,6 +12,12 @@ const getErrorOutput = (error) => {
   return output;
 };
 
+afterEach(() => {
+  delete process.env['INPUT_PATH'];
+  delete process.env['INPUT_EXCLUDE'];
+  delete process.env['INPUT_MIN_COVERAGE'];
+});
+
 test('empty LCOV throws an error', () => {
   const lcovPath = './fixtures/lcov.empty.info';
   process.env['INPUT_PATH'] = lcovPath;
