@@ -107,10 +107,11 @@ test('fails when the coverage is not 100 and min_coverage is not provided', () =
   process.env['INPUT_PATH'] = lcovPath;
   const ip = path.join(__dirname, 'index.js');
   try {
-    cp.execSync(`node ${ip}`, { env: process.env }).toString();
+    cp.execSync(`node ${ip}`, { env: process.env });
     fail('this code should fail');
   } catch (err) {
-    expect(err).toBeDefined();
+	const output = getErrorOutput(err);
+	expect(output).toContain('95 is less than min_coverage 100');
   }
 });
 
@@ -208,5 +209,19 @@ test('reports 0 coverage when no lines are found ', () => {
     expect(err).toBeDefined();
     const errorMessage = err.stdout.toString();
     expect(errorMessage).toContain('0 is less than min_coverage 100');
+  }
+});
+
+test('fails when min_coverage is not a number', () => {
+  process.env['INPUT_MIN_COVERAGE'] = '10%';
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env });
+    fail('this code should fail');
+  } catch (err) {
+    const output = getErrorOutput(err);
+    expect(output).toContain(
+      '❌ Failed to parse min_coverage. Make sure to enter a valid number.',
+    );
   }
 });
