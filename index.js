@@ -5,11 +5,12 @@ const fs = require('fs');
 
 function run() {
   const lcovPath = core.getInput('path');
-  const minCoverage = core.getInput('min_coverage');
+  const minCoverageInput = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
+  const minCoverage = parseMinCoverage(minCoverageInput);
 
-  if (!canParse(lcovPath)) {
+  if (minCoverage === null || !canParse(lcovPath)) {
     return;
   }
 
@@ -105,6 +106,20 @@ you have no test files or your tests are not generating any coverage data.
   }
 
   return true;
+}
+
+function parseMinCoverage(input) {
+  if (input === '') {
+	return 100;
+  }
+
+  const asNumber = Number(input);
+  if (isNaN(asNumber)) {
+    core.setFailed('❌ Failed to parse min_coverage. Make sure to enter a valid number.');
+    return null;
+  }
+
+  return asNumber;
 }
 
 run();
