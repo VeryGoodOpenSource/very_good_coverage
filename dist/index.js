@@ -4578,15 +4578,16 @@ function parseMinCoverage(input) {
     return 100;
   }
 
-  const asNumber = Number(input);
-  if (isNaN(asNumber)) {
+  const minCoverage = Number(input);
+
+  if (isNaN(minCoverage) || minCoverage < 0 || minCoverage > 100) {
     core.setFailed(
-      '❌ Failed to parse min_coverage. Make sure to enter a valid number.',
+      '❌ Failed to parse min_coverage. Make sure to enter a valid number between 0 and 100.',
     );
     return null;
   }
 
-  return asNumber;
+  return minCoverage;
 }
 
 run();

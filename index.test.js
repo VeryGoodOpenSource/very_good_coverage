@@ -220,9 +220,7 @@ test('fails when min_coverage is not a number', () => {
     fail('this code should fail');
   } catch (err) {
     const output = getErrorOutput(err);
-    expect(output).toContain(
-      '❌ Failed to parse min_coverage.',
-    );
+    expect(output).toContain('❌ Failed to parse min_coverage.');
   }
 });
 
@@ -234,9 +232,7 @@ test('fails when min_coverage is lower than 0', () => {
     fail('this code should fail');
   } catch (err) {
     const output = getErrorOutput(err);
-    expect(output).toContain(
-      '❌ Failed to parse min_coverage.',
-    );
+    expect(output).toContain('❌ Failed to parse min_coverage.');
   }
 });
 
@@ -248,8 +244,6 @@ test('fails when min_coverage is greater than 100', () => {
     fail('this code should fail');
   } catch (err) {
     const output = getErrorOutput(err);
-    expect(output).toContain(
-      '❌ Failed to parse min_coverage.',
-    );
+    expect(output).toContain('❌ Failed to parse min_coverage.');
   }
 });
