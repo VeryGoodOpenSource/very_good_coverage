@@ -47,7 +47,7 @@ function run() {
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
       ([file, lines]) => {
         return `- ${file}: ${lines.join(', ')}`;
-      }
+      },
     );
     let linesMissingCoverageMessage =
       `Lines not covered:\n` +
@@ -55,7 +55,7 @@ function run() {
     if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          linesMissingCoverageMessage
+          linesMissingCoverageMessage,
       );
     } else {
       var resultMessage = `Coverage: ${coverage}%.\n`;
@@ -90,7 +90,7 @@ For example:
   uses: VeryGoodOpenSource/very_good_coverage@v2
   with:
     path: 'my_project/coverage/lcov.info'      
-`
+`,
     );
     return false;
   }
@@ -100,7 +100,7 @@ For example:
       `❌ Found an empty lcov file at "${path}".
 An empty lcov file was found but with no coverage data. This might be because \
 you have no test files or your tests are not generating any coverage data.
-`
+`,
     );
     return false;
   }
@@ -110,12 +110,14 @@ you have no test files or your tests are not generating any coverage data.
 
 function parseMinCoverage(input) {
   if (input === '') {
-	return 100;
+    return 100;
   }
 
   const asNumber = Number(input);
   if (isNaN(asNumber)) {
-    core.setFailed('❌ Failed to parse min_coverage. Make sure to enter a valid number.');
+    core.setFailed(
+      '❌ Failed to parse min_coverage. Make sure to enter a valid number.',
+    );
     return null;
   }
 

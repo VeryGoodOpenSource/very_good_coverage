@@ -110,8 +110,8 @@ test('fails when the coverage is not 100 and min_coverage is not provided', () =
     cp.execSync(`node ${ip}`, { env: process.env });
     fail('this code should fail');
   } catch (err) {
-	const output = getErrorOutput(err);
-	expect(output).toContain('95 is less than min_coverage 100');
+    const output = getErrorOutput(err);
+    expect(output).toContain('95 is less than min_coverage 100');
   }
 });
 
