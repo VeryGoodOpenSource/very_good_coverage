@@ -221,7 +221,35 @@ test('fails when min_coverage is not a number', () => {
   } catch (err) {
     const output = getErrorOutput(err);
     expect(output).toContain(
-      '❌ Failed to parse min_coverage. Make sure to enter a valid number.',
+      '❌ Failed to parse min_coverage.',
+    );
+  }
+});
+
+test('fails when min_coverage is lower than 0', () => {
+  process.env['INPUT_MIN_COVERAGE'] = -1;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env });
+    fail('this code should fail');
+  } catch (err) {
+    const output = getErrorOutput(err);
+    expect(output).toContain(
+      '❌ Failed to parse min_coverage.',
+    );
+  }
+});
+
+test('fails when min_coverage is greater than 100', () => {
+  process.env['INPUT_MIN_COVERAGE'] = 101;
+  const ip = path.join(__dirname, 'index.js');
+  try {
+    cp.execSync(`node ${ip}`, { env: process.env });
+    fail('this code should fail');
+  } catch (err) {
+    const output = getErrorOutput(err);
+    expect(output).toContain(
+      '❌ Failed to parse min_coverage.',
     );
   }
 });
