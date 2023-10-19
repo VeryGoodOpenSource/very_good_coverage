@@ -8,9 +8,16 @@ function run() {
   const minCoverageInput = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
-  const minCoverage = parseMinCoverage(minCoverageInput);
+  const minCoverage = tryParseMinCoverage(minCoverageInput);
 
-  if (minCoverage === null || !canParse(lcovPath)) {
+  if (minCoverage === null) {
+    core.setFailed(
+      '❌ Failed to parse min_coverage. Make sure to enter a valid number between 0 and 100.',
+    );
+    return;
+  }
+
+  if (!canParse(lcovPath)) {
     return;
   }
 
@@ -108,7 +115,7 @@ you have no test files or your tests are not generating any coverage data.
   return true;
 }
 
-function parseMinCoverage(input) {
+function tryParseMinCoverage(input) {
   if (input === '') {
     return 100;
   }
@@ -116,9 +123,6 @@ function parseMinCoverage(input) {
   const minCoverage = Number(input);
 
   if (isNaN(minCoverage) || minCoverage < 0 || minCoverage > 100) {
-    core.setFailed(
-      '❌ Failed to parse min_coverage. Make sure to enter a valid number between 0 and 100.',
-    );
     return null;
   }
 
