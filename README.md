@@ -19,7 +19,7 @@ Very Good Coverage accepts the following configuration inputs:
 | Input name   | Description                                                                                                                                                                     | Default value           | Optional |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | -------- |
 | path         | The absolute path to the lcov.info file.                                                                                                                                        | `"/coverage/lcov.info"` | ✅       |
-| min_coverage | The minimum coverage percentage allowed.                                                                                                                                        | `100`                   | ✅       |
+| min_coverage | The minimum coverage percentage allowed. Must be a number between 0 and 100.                                                                                                                                       | `100`                   | ✅       |
 | exclude      | List of paths to exclude from the coverage report, separated by an empty space. Supports [globs](<https://en.wikipedia.org/wiki/Glob_(programming)>) to describe file patterns. | `""`                    | ✅       |
 
 ## Example usage
