@@ -5,9 +5,17 @@ const fs = require('fs');
 
 function run() {
   const lcovPath = core.getInput('path');
-  const minCoverage = core.getInput('min_coverage');
+  const minCoverageInput = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
+  const minCoverage = tryParseMinCoverage(minCoverageInput);
+
+  if (minCoverage === null) {
+    core.setFailed(
+      '❌ Failed to parse min_coverage. Make sure to enter a valid number between 0 and 100.',
+    );
+    return;
+  }
 
   if (!canParse(lcovPath)) {
     return;
@@ -46,7 +54,7 @@ function run() {
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
       ([file, lines]) => {
         return `- ${file}: ${lines.join(', ')}`;
-      }
+      },
     );
     let linesMissingCoverageMessage =
       `Lines not covered:\n` +
@@ -54,7 +62,7 @@ function run() {
     if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          linesMissingCoverageMessage
+          linesMissingCoverageMessage,
       );
     } else {
       var resultMessage = `Coverage: ${coverage}%.\n`;
@@ -89,7 +97,7 @@ For example:
   uses: VeryGoodOpenSource/very_good_coverage@v2
   with:
     path: 'my_project/coverage/lcov.info'      
-`
+`,
     );
     return false;
   }
@@ -99,12 +107,26 @@ For example:
       `❌ Found an empty lcov file at "${path}".
 An empty lcov file was found but with no coverage data. This might be because \
 you have no test files or your tests are not generating any coverage data.
-`
+`,
     );
     return false;
   }
 
   return true;
+}
+
+function tryParseMinCoverage(input) {
+  if (input === '') {
+    return 100;
+  }
+
+  const minCoverage = Number(input);
+
+  if (isNaN(minCoverage) || minCoverage < 0 || minCoverage > 100) {
+    return null;
+  }
+
+  return minCoverage;
 }
 
 run();

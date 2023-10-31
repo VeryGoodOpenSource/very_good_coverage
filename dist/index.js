@@ -4470,11 +4470,12 @@ const fs = __nccwpck_require__(147);
 
 function run() {
   const lcovPath = core.getInput('path');
-  const minCoverage = core.getInput('min_coverage');
+  const minCoverageInput = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
+  const minCoverage = parseMinCoverage(minCoverageInput);
 
-  if (!canParse(lcovPath)) {
+  if (minCoverage === null || !canParse(lcovPath)) {
     return;
   }
 
@@ -4570,6 +4571,23 @@ you have no test files or your tests are not generating any coverage data.
   }
 
   return true;
+}
+
+function parseMinCoverage(input) {
+  if (input === '') {
+    return 100;
+  }
+
+  const minCoverage = Number(input);
+
+  if (isNaN(minCoverage) || minCoverage < 0 || minCoverage > 100) {
+    core.setFailed(
+      '❌ Failed to parse min_coverage. Make sure to enter a valid number between 0 and 100.',
+    );
+    return null;
+  }
+
+  return minCoverage;
 }
 
 run();
