@@ -37,7 +37,7 @@ fi
 # Retrieving all the commits in the current directory since the last tag.
 previousTag="v${old_version}"
 raw_commits="$(git log --pretty=format:"%s" --no-merges --reverse $previousTag..HEAD -- .)"
-markdown_commits=$(echo "$raw_commits" | sed -En "s/\(#([0-9]+)\)/([#\1](https:\/\/github.com\/VeryGoodOpenSource\/very_good_workflows\/pull\/\1))/p")
+markdown_commits=$(echo "$raw_commits" | sed -En "s/\(#([0-9]+)\)/([#\1](https:\/\/github.com\/VeryGoodOpenSource\/very_good_coverage\/pull\/\1))/p")
 
 if [[ "$markdown_commits" == "" ]]; then
   echo "No commits since last tag, can't update."
