@@ -16,7 +16,7 @@
     "url": "git+https://github.com/VeryGoodOpenSource/very_good_coverage.git"
   },
   "engines": {
-    "node": ">=16.17.0 <17"
+    "node": ">=20"
   },
   "keywords": [
     "GitHub",
