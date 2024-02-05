@@ -37,7 +37,7 @@
     "@eslint/eslintrc": "^2.1.4",
     "lcov-parse": "^1.0.0",
     "minimatch": "^7.0.0",
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.5"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.1",
