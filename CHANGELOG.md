@@ -1,3 +1,9 @@
+# 3.0.0
+
+- chore(deps): bump prettier from 3.1.0 to 3.2.5 ([#311](https://github.com/VeryGoodOpenSource/very_good_coverage/pull/311))
+- chore(deps): bump @eslint/eslintrc from 2.1.3 to 3.0.1 ([#312](https://github.com/VeryGoodOpenSource/very_good_coverage/pull/312))
+- chore!: update to node 20 ([#310](https://github.com/VeryGoodOpenSource/very_good_coverage/pull/310))
+
 # 2.2.0
 
 - chore(deps): bump prettier from 2.7.1 to 2.8.0 ([#195](https://github.com/VeryGoodOpenSource/very_good_coverage/pull/195))
