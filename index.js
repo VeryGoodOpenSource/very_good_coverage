@@ -77,7 +77,7 @@ function run() {
 
 function shouldCalculateCoverageForFile(fileName, excludedFiles) {
   for (let i = 0; i < excludedFiles.length; i++) {
-    const isExcluded = minimatch(fileName, excludedFiles[i]);
+    const isExcluded = minimatch.minimatch(fileName, excludedFiles[i]);
     if (isExcluded) {
       core.debug(`Excluding ${fileName} from coverage`);
       return false;
