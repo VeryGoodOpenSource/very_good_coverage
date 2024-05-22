@@ -1,7 +1,6 @@
 const js = require('@eslint/js');
 
 module.exports = [
-  js.configs.recommended,
   {
     files: ['**/*.js'],
     ignores: ['dist/', 'eslint.config.js'],
@@ -17,4 +16,5 @@ module.exports = [
       globals: { commonjs: true, es6: true, jest: true, node: true },
     },
   },
+  js.configs.recommended,
 ];
