@@ -1,20 +1,17 @@
 const js = require('@eslint/js');
+const globals = require('globals');
+const jest = require('eslint-plugin-jest');
 
 module.exports = [
   {
-    files: ['**/*.js'],
-    ignores: ['dist/', 'eslint.config.js'],
-    rules: {},
+    files: ['*.js'],
+    ignores: ['eslint.config.js'],
+    rules: {
+      ...globals.rules,
+      ...js.configs.recommended.rules,
+    },
     languageOptions: {
-      globals: {
-        Atomics: 'readonly',
-        SharedArrayBuffer: 'readonly',
-      },
-      parserOptions: {
-        ecmaVersion: 2018,
-      },
-      globals: { commonjs: true, es6: true, jest: true, node: true },
+      globals: { ...globals.node, ...jest.environments.globals.globals },
     },
   },
-  js.configs.recommended,
 ];
