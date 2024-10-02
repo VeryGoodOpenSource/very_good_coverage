@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/VeryGoodOpenSource/very_good_coverage",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.11.0",
     "lcov-parse": "^1.0.0",
     "minimatch": "^10.0.1",
     "prettier": "^3.3.3"
