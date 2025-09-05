@@ -39,7 +39,7 @@
     "prettier": "^3.6.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.34.0",
+    "@eslint/js": "^9.35.0",
     "@vercel/ncc": "^0.38.3",
     "eslint": "^9.26.0",
     "globals": "^16.3.0",
