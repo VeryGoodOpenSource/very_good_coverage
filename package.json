@@ -35,7 +35,7 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "lcov-parse": "^1.0.0",
-    "minimatch": "^10.0.3",
+    "minimatch": "^10.1.1",
     "prettier": "^3.6.2"
   },
   "devDependencies": {
