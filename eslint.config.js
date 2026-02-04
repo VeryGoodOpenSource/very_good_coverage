@@ -1,8 +1,8 @@
-const js = require('@eslint/js');
-const globals = require('globals');
-const jest = require('eslint-plugin-jest');
+import js from '@eslint/js';
+import globals from 'globals';
+import jest from 'eslint-plugin-jest';
 
-module.exports = [
+export default [
   {
     files: ['*.js'],
     ignores: ['eslint.config.js'],

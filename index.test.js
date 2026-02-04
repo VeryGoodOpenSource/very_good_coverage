@@ -1,7 +1,11 @@
-const process = require('process');
-const cp = require('child_process');
-const path = require('path');
-const { fail } = require('assert');
+import process from 'process';
+import cp from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { fail } from 'assert';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const getErrorOutput = (error) => {
   const output = Array(...error.output)

@@ -2,13 +2,14 @@
   "name": "very-good-coverage",
   "version": "2.1.0",
   "description": "A Github Action which helps enforce code coverage threshold using lcov",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "lint": "eslint *.js",
     "format": "prettier --write .",
     "check_format": "prettier --check .",
     "prepare": "npm run format && ncc build index.js -o dist --source-map --license licenses.txt",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "all": "npm run lint && npm run prepare && npm run test"
   },
   "repository": {
