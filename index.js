@@ -1,7 +1,7 @@
-const core = require('@actions/core');
-const minimatch = require('minimatch');
-const parse = require('lcov-parse');
-const fs = require('fs');
+import * as core from '@actions/core';
+import { minimatch } from 'minimatch';
+import parse from 'lcov-parse';
+import fs from 'fs';
 
 function run() {
   const lcovPath = core.getInput('path');
@@ -77,7 +77,7 @@ function run() {
 
 function shouldCalculateCoverageForFile(fileName, excludedFiles) {
   for (let i = 0; i < excludedFiles.length; i++) {
-    const isExcluded = minimatch.minimatch(fileName, excludedFiles[i]);
+    const isExcluded = minimatch(fileName, excludedFiles[i]);
     if (isExcluded) {
       core.debug(`Excluding ${fileName} from coverage`);
       return false;
