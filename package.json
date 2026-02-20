@@ -1,6 +1,6 @@
 {
   "name": "very-good-coverage",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A Github Action which helps enforce code coverage threshold using lcov",
   "type": "module",
   "main": "index.js",
