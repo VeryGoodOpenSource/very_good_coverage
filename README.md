@@ -10,7 +10,38 @@ Developed with 💙 by [Very Good Ventures][very_good_ventures_link] 🦄
 
 ---
 
+> [!WARNING]
+> **This project is deprecated.** Very Good Coverage has been superseded by [Very Good Workflows][very_good_workflows_link], which provides a comprehensive suite of reusable GitHub Actions workflows — including code coverage enforcement.
+>
+> Please migrate to [Very Good Workflows][very_good_workflows_link]. See the [Migration Guide](#migration-guide) below.
+
 A GitHub Action which helps enforce a minimum code coverage threshold.
+
+## Migration Guide
+
+Migrate from `VeryGoodOpenSource/very_good_coverage` to [Very Good Workflows][very_good_workflows_link] by replacing your workflow step with the reusable workflow provided in that repository.
+
+**Before:**
+
+```yaml
+- name: Very Good Coverage
+  uses: VeryGoodOpenSource/very_good_coverage@v2
+  with:
+    path: '/coverage/lcov.info'
+    min_coverage: 95
+    exclude: '**/*_observer.dart **/change.dart'
+```
+
+**After:**
+
+```yaml
+uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+with:
+  min_coverage: 95
+  coverage_excludes: '**/*_observer.dart **/change.dart'
+```
+
+Refer to the [Very Good Workflows documentation][very_good_workflows_link] for the full list of available inputs and workflow options.
 
 ## Inputs
 
@@ -86,6 +117,7 @@ jobs:
           path: /my_project/coverage/lcov.info
 ```
 
+[very_good_workflows_link]: https://github.com/VeryGoodOpenSource/very_good_workflows
 [ci_badge]: https://github.com/VeryGoodOpenSource/very_good_coverage/workflows/ci/badge.svg
 [ci_badge_link]: https://github.com/VeryGoodOpenSource/very_good_coverage/actions
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
